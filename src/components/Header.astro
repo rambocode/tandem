@@ -1,0 +1,132 @@
+---
+import Logo from './Logo.astro';
+import { useTranslations, localizePath } from '../i18n/utils';
+import { languages, type Lang } from '../i18n/ui';
+import { LINKS } from '../config';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const langs = Object.entries(languages) as [Lang, string][];
+const shortLabel: Record<Lang, string> = { en: 'EN', zh: '中', ja: '日' };
+---
+
+<header class="hdr">
+  <div class="container hdr-inner">
+    <a href={localizePath('/', lang)} class="hdr-brand" aria-label="Tandem">
+      <Logo size={26} withWordmark />
+    </a>
+
+    <nav class="hdr-nav" aria-label="Primary">
+      <a href="#features">{t.nav.features}</a>
+      <a href="#pro">{t.nav.pro}</a>
+      <a href="#pricing">{t.nav.pricing}</a>
+      <a href="#faq">{t.nav.faq}</a>
+    </nav>
+
+    <div class="hdr-end">
+      <div class="lang-switch" role="group" aria-label="Language">
+        {
+          langs.map(([code]) => (
+            <a
+              href={localizePath('/', code)}
+              class:list={['lang-item', { active: code === lang }]}
+              aria-current={code === lang ? 'true' : undefined}
+            >
+              {shortLabel[code]}
+            </a>
+          ))
+        }
+      </div>
+      <a href={LINKS.macDownload} class="hdr-download">{t.nav.download}</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--popover);
+    backdrop-filter: saturate(180%) blur(18px);
+    -webkit-backdrop-filter: saturate(180%) blur(18px);
+    border-bottom: 1px solid var(--sep);
+  }
+  .hdr-inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 58px;
+  }
+  .hdr-brand {
+    flex-shrink: 0;
+  }
+  .hdr-nav {
+    display: flex;
+    gap: 30px;
+    margin-inline: auto;
+    font-weight: 600;
+    font-size: 0.86rem;
+    color: var(--text-2);
+  }
+  .hdr-nav a:hover {
+    color: var(--text-1);
+  }
+  .hdr-end {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .lang-switch {
+    display: inline-flex;
+    background: transparent;
+    border: 1px solid var(--sep);
+    border-radius: 10px;
+    padding: 3px;
+  }
+  .lang-item {
+    font-family: var(--font-round);
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--text-2);
+    padding: 5px 11px;
+    border-radius: 7px;
+    line-height: 1;
+  }
+  .lang-item.active {
+    background: var(--surface);
+    color: var(--text-1);
+    box-shadow: var(--shadow-card);
+  }
+  .hdr-download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 0 16px;
+    border-radius: 10px;
+    background: var(--text-1);
+    color: var(--surface);
+    font-family: var(--font-round);
+    font-size: 0.86rem;
+    font-weight: 700;
+    border: 1px solid var(--text-1);
+  }
+  .hdr-download:hover {
+    opacity: 0.86;
+  }
+
+  @media (max-width: 860px) {
+    .hdr-nav {
+      display: none;
+    }
+  }
+  @media (max-width: 520px) {
+    .hdr-download {
+      display: none;
+    }
+  }
+</style>

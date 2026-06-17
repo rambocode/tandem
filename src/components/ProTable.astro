@@ -1,0 +1,136 @@
+---
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+function cell(value: string) {
+  if (value === 'yes') return { type: 'yes' as const };
+  if (value === 'no') return { type: 'no' as const };
+  return { type: 'text' as const, text: value };
+}
+---
+
+<section id="pro" class="section pro-section">
+  <div class="container">
+    <header class="pro-head">
+      <p class="eyebrow">{t.pro.badge}</p>
+      <h2 class="section-title">{t.pro.heading}</h2>
+      <p class="section-lead">{t.pro.lead}</p>
+    </header>
+
+    <div class="pro-table card">
+      <div class="pt-row pt-headrow">
+        <span class="pt-feature"></span>
+        <span class="pt-col">{t.pro.free}</span>
+        <span class="pt-col pt-col-pro">{t.pro.proLabel}</span>
+      </div>
+      {
+        t.pro.rows.map((row) => {
+          const f = cell(row.free);
+          const p = cell(row.pro);
+          return (
+            <div class="pt-row">
+              <span class="pt-feature">{row.feature}</span>
+              <span class="pt-col">
+                {f.type === 'yes' && <i class="ck">✓</i>}
+                {f.type === 'no' && <i class="dash">{t.pro.no}</i>}
+                {f.type === 'text' && <i class="txt">{f.text}</i>}
+              </span>
+              <span class="pt-col pt-col-pro">
+                {p.type === 'yes' && <i class="ck on">✓</i>}
+                {p.type === 'no' && <i class="dash">{t.pro.no}</i>}
+                {p.type === 'text' && <i class="txt strong">{p.text}</i>}
+              </span>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .pro-section {
+    background: rgba(255, 255, 255, 0.62);
+    border-block: 1px solid var(--sep);
+  }
+  .pro-head {
+    max-width: 720px;
+    margin-bottom: clamp(28px, 4vw, 44px);
+  }
+  .pro-table {
+    background: transparent;
+    border-radius: 0;
+    border-inline: none;
+    overflow: hidden;
+    padding: 0;
+  }
+  .pt-row {
+    display: grid;
+    grid-template-columns: 1fr 130px 130px;
+    align-items: center;
+    padding: 16px 0;
+    border-top: 1px solid var(--sep);
+  }
+  .pt-row:first-child {
+    border-top: none;
+  }
+  .pt-headrow {
+    background: transparent;
+    color: var(--text-3);
+  }
+  .pt-feature {
+    font-size: 0.95rem;
+    color: var(--text-1);
+    padding-right: 12px;
+  }
+  .pt-headrow .pt-feature {
+    font-weight: 700;
+  }
+  .pt-col {
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-2);
+  }
+  .pt-col-pro {
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid var(--sep);
+    border-radius: 8px;
+    padding-block: 8px;
+    color: var(--text-1);
+  }
+  .ck {
+    color: var(--text-3);
+    font-size: 1.05rem;
+  }
+  .ck.on {
+    color: var(--green);
+  }
+  .dash {
+    color: var(--text-3);
+    font-style: normal;
+  }
+  .txt {
+    font-style: normal;
+    color: var(--text-2);
+  }
+  .txt.strong {
+    color: var(--text-1);
+  }
+
+  @media (max-width: 560px) {
+    .pt-row {
+      grid-template-columns: 1fr 72px 72px;
+      padding: 14px 0;
+    }
+    .pt-feature {
+      font-size: 0.86rem;
+    }
+  }
+</style>

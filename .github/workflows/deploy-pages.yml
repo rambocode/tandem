@@ -1,0 +1,54 @@
+name: Deploy to GitHub Pages
+
+# 触发：推送到 main，或手动触发。本仓库即官网（Astro）根目录。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Pages 部署所需权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时刻只跑一个 Pages 部署，新提交不取消进行中的发布（避免站点处于半发布态）。
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: 构建 Astro 站点
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: 安装依赖
+        run: npm ci
+      - name: 构建（base=/tandem）
+        run: npm run build
+      - name: 上传 Pages 制品
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: 部署到 GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 发布
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+# ──────────────────────────────────────────────────────────────
+# 首次启用前需在 GitHub 仓库 Settings → Pages → Build and deployment
+# 将 Source 设为 “GitHub Actions”。站点地址：https://rambocode.github.io/tandem/
+# ──────────────────────────────────────────────────────────────

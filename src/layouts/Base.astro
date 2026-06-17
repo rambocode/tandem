@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+import { useTranslations, localizePath } from '../i18n/utils';
+import { languages, type Lang } from '../i18n/ui';
+import { SITE } from '../config';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const htmlLang: Record<Lang, string> = { en: 'en', zh: 'zh-Hans', ja: 'ja' };
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`; // 规范成带尾斜杠，如 '/tandem/'
+const canonical = new URL(localizePath('/', lang), SITE.domain).href;
+const ogImage = new URL(`${base}og/tandem-og.png`, SITE.domain).href;
+const allLangs = Object.keys(languages) as Lang[];
+---
+
+<!doctype html>
+<html lang={htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{t.meta.title}</title>
+    <meta name="description" content={t.meta.description} />
+    <link rel="canonical" href={canonical} />
+
+    {/* hreflang 互链 */}
+    {
+      allLangs.map((l) => (
+        <link
+          rel="alternate"
+          hreflang={htmlLang[l]}
+          href={new URL(localizePath('/', l), SITE.domain).href}
+        />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={new URL(localizePath('/', 'en'), SITE.domain).href} />
+
+    {/* Open Graph / Twitter */}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={t.meta.title} />
+    <meta property="og:description" content={t.meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta name="theme-color" content="#6d5bff" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

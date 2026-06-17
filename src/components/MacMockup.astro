@@ -1,0 +1,165 @@
+---
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const clips = [
+  { kind: 'text', body: t.mockup.clipText },
+  { kind: 'link', body: t.mockup.clipLink },
+  { kind: 'code', body: t.mockup.clipCode },
+];
+---
+
+<div class="mac" role="img" aria-label="Tandem on macOS">
+  <div class="mac-bar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="mac-title">{t.mockup.macTitle}</span>
+    <span class="mac-sync"><i class="live"></i>{t.mockup.macSync}</span>
+  </div>
+  <div class="mac-status">
+    <span class="live"></span>
+    <span>{t.mockup.phoneReceived}</span>
+  </div>
+  <ul class="mac-list">
+    {
+      clips.map((c, i) => (
+        <li class="clip" style={`animation-delay:${i * 0.12}s`}>
+          <span class:list={['clip-ico', c.kind]} aria-hidden="true">
+            {c.kind === 'text' && (
+              <svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h9" /></svg>
+            )}
+            {c.kind === 'link' && (
+              <svg viewBox="0 0 24 24"><path d="M9 13a4 4 0 0 0 6 0l2-2a4 4 0 0 0-6-6l-1 1" /><path d="M15 11a4 4 0 0 0-6 0l-2 2a4 4 0 0 0 6 6l1-1" /></svg>
+            )}
+            {c.kind === 'code' && (
+              <svg viewBox="0 0 24 24"><path d="m9 8-4 4 4 4M15 8l4 4-4 4" /></svg>
+            )}
+          </span>
+          <span class:list={['clip-body', { mono: c.kind === 'code' }]}>{c.body}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .mac {
+    width: clamp(280px, 30vw, 372px);
+    background: var(--popover-solid);
+    border: 0.5px solid var(--sep-strong);
+    border-radius: 18px;
+    box-shadow: var(--shadow-pop);
+    overflow: hidden;
+  }
+  .mac-bar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--sep);
+    background: rgba(255, 255, 255, 0.44);
+  }
+  .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+  }
+  .dot.r { background: #ff5f57; }
+  .dot.y { background: #febc2e; }
+  .dot.g { background: #28c840; }
+  .mac-title {
+    font-family: var(--font-round);
+    font-weight: 700;
+    font-size: 0.86rem;
+    margin-left: 8px;
+    color: var(--text-1);
+  }
+  .mac-sync {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.74rem;
+    color: var(--text-3);
+  }
+  .live {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    position: relative;
+  }
+  .live::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulseRing 1.6s ease-out infinite;
+  }
+  .mac-status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 14px 14px 0;
+    padding: 13px 14px;
+    border: 1px solid var(--sep);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.58);
+    color: var(--text-2);
+    font-size: 0.86rem;
+    font-weight: 600;
+  }
+  .mac-list {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .clip {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 12px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid var(--sep);
+    border-radius: 10px;
+    box-shadow: none;
+    animation: popIn 0.5s cubic-bezier(0.2, 1.1, 0.3, 1) both;
+  }
+  .clip-ico {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--surface-2);
+    display: grid;
+    place-items: center;
+  }
+  .clip-ico svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: var(--text-2);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .clip-body {
+    font-size: 0.86rem;
+    color: var(--text-1);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .clip-body.mono {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-2);
+  }
+</style>

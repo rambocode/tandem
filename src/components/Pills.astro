@@ -1,0 +1,91 @@
+---
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const pills = [
+  { key: 'lan', text: t.pills.lan, icon: 'lock' },
+  { key: 'noCloud', text: t.pills.noCloud, icon: 'cloud-off' },
+  { key: 'oneTime', text: t.pills.oneTime, icon: 'tag' },
+];
+---
+
+<section class="pills-wrap">
+  <div class="container pills">
+    {
+      pills.map((p) => (
+        <span class="pill">
+          <svg class="pill-ico" viewBox="0 0 24 24" aria-hidden="true">
+            {p.icon === 'lock' && (
+              <>
+                <rect x="5" y="11" width="14" height="9" rx="2" />
+                <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+              </>
+            )}
+            {p.icon === 'cloud-off' && (
+              <>
+                <path d="M7 18h9a4 4 0 0 0 .9-7.9A5 5 0 0 0 8 8" />
+                <path d="m4 4 16 16" />
+              </>
+            )}
+            {p.icon === 'tag' && (
+              <>
+                <path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-9 9z" />
+                <circle cx="8" cy="8" r="1.4" />
+              </>
+            )}
+          </svg>
+          {p.text}
+        </span>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .pills-wrap {
+    border-block: 1px solid var(--sep);
+    background: rgba(255, 255, 255, 0.64);
+  }
+  .pills {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding-block: 18px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    justify-content: center;
+    min-height: 52px;
+    padding: 10px 14px;
+    border: 1px solid var(--sep);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-1);
+  }
+  .pill-ico {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: var(--green);
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  @media (max-width: 720px) {
+    .pills {
+      grid-template-columns: 1fr;
+    }
+    .pill {
+      justify-content: flex-start;
+    }
+  }
+</style>

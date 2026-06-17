@@ -1,0 +1,80 @@
+---
+import Logo from './Logo.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { SITE } from '../config';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const anchors = ['#features', '#pro', '#pricing', '#faq'];
+const year = 2026; // Date.now() 在构建沙箱不可用，固定当前年份
+---
+
+<footer class="ft">
+  <div class="container ft-inner">
+    <div class="ft-brand">
+      <Logo size={24} withWordmark />
+      <p class="ft-tag">{t.footer.tagline}</p>
+    </div>
+    <nav class="ft-nav" aria-label="Footer">
+      <span class="ft-h">{t.footer.product}</span>
+      {t.footer.links.map((label, i) => <a href={anchors[i]}>{label}</a>)}
+    </nav>
+  </div>
+  <div class="container ft-bottom">
+    <span>© {year} {SITE.name}. {t.footer.rights}</span>
+    <span class="ft-version">{SITE.versionLine}</span>
+  </div>
+</footer>
+
+<style>
+  .ft {
+    background: rgba(255, 255, 255, 0.58);
+    border-top: 1px solid var(--sep);
+    padding-block: 44px 28px;
+  }
+  .ft-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .ft-tag {
+    margin-top: 12px;
+    color: var(--text-2);
+    font-size: 0.9rem;
+    max-width: 38ch;
+  }
+  .ft-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    font-size: 0.92rem;
+    color: var(--text-2);
+  }
+  .ft-h {
+    font-weight: 700;
+    color: var(--text-1);
+    margin-bottom: 2px;
+  }
+  .ft-nav a:hover {
+    color: var(--text-1);
+  }
+  .ft-bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 36px;
+    padding-top: 20px;
+    border-top: 1px solid var(--sep);
+    font-size: 0.82rem;
+    color: var(--text-3);
+  }
+  .ft-version {
+    font-family: var(--font-round);
+  }
+</style>

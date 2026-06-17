@@ -1,0 +1,45 @@
+---
+// 品牌 Logo（design-tokens §8）：两个 20×20 圆角矩形 + 右卡白点，填品牌渐变。
+interface Props {
+  size?: number;
+  withWordmark?: boolean;
+}
+const { size = 28, withWordmark = false } = Astro.props;
+---
+
+<span class="logo" style={`--logo-size:${size}px`}>
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 40 40"
+    fill="none"
+    role="img"
+    aria-label="Tandem"
+  >
+    <defs>
+      <linearGradient id="tandem-logo-grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#6D5BFF" />
+        <stop offset="1" stop-color="#B14BF4" />
+      </linearGradient>
+    </defs>
+    <rect x="5" y="9" width="20" height="20" rx="5.4" fill="url(#tandem-logo-grad)" opacity="0.4" />
+    <rect x="15" y="11" width="20" height="20" rx="5.4" fill="url(#tandem-logo-grad)" />
+    <circle cx="25" cy="20" r="3.4" fill="#fff" opacity="0.95" />
+  </svg>
+  {withWordmark && <span class="logo-word">Tandem</span>}
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .logo-word {
+    font-family: var(--font-round);
+    font-weight: 800;
+    font-size: calc(var(--logo-size) * 0.72);
+    letter-spacing: 0;
+    color: var(--text-1);
+  }
+</style>

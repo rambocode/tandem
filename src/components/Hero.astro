@@ -1,0 +1,418 @@
+---
+import MacMockup from './MacMockup.astro';
+import PhoneMockup from './PhoneMockup.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import { LINKS, SITE } from '../config';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const titleLines = t.hero.title.split('\n');
+---
+
+<section class="hero">
+  <div class="container hero-head">
+    <div class="hero-copy">
+      <span class="hero-badge">{t.hero.badge}</span>
+      <p class="hero-kicker">{SITE.name}</p>
+      <h1 class="hero-title">
+        {titleLines.map((line, i) => <>{i > 0 && <br />}{line}</>)}
+      </h1>
+      <p class="hero-sub">{t.hero.subtitle}</p>
+      <div class="hero-cta">
+        <a href={LINKS.macDownload} class="btn btn-primary">{t.hero.ctaMac}</a>
+        <a href={LINKS.appStore} class="btn btn-ghost">{t.hero.ctaIos}</a>
+      </div>
+      <p class="hero-note">{t.hero.note}</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="hero-stage" aria-hidden="false">
+      <div class="menu-strip" aria-hidden="true">
+        <span class="strip-dot"></span>
+        <span>LAN</span>
+        <span>E2E</span>
+        <span>No cloud</span>
+      </div>
+      <div class="sync-node mac-node">
+        <MacMockup lang={lang} />
+      </div>
+      <div class="lane-track" aria-hidden="true">
+        <span class="lane-beam"></span>
+        <span class="lane-dot"></span>
+        <span class="lane-dot d2"></span>
+        <span class="sync-packet p1"></span>
+        <span class="sync-packet p2"></span>
+        <span class="sync-packet p3"></span>
+      </div>
+      <div class="sync-node phone-node">
+        <PhoneMockup lang={lang} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: clamp(58px, 9vw, 112px) 0;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 520px;
+    background:
+      radial-gradient(70% 68% at 50% 0%, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0) 70%),
+      radial-gradient(45% 45% at 70% 18%, rgba(109, 91, 255, 0.08), transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .hero-head {
+    text-align: center;
+  }
+  .hero-copy {
+    max-width: 820px;
+    margin-inline: auto;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-2);
+    background: rgba(255, 255, 255, 0.62);
+    border: 1px solid var(--sep);
+    border-radius: 10px;
+    padding: 6px 14px;
+  }
+  .hero-kicker {
+    margin-top: 24px;
+    font-family: var(--font-round);
+    font-size: clamp(4.4rem, 12vw, 9rem);
+    font-weight: 800;
+    line-height: 0.92;
+    color: var(--text-1);
+  }
+  .hero-title {
+    font-size: clamp(2.3rem, 5.8vw, 5rem);
+    margin-top: 10px;
+    word-break: keep-all; /* CJK 不逐字断行，仅在空格/标点处换行 */
+    text-wrap: balance;
+    color: var(--text-1);
+  }
+  .hero-sub {
+    color: var(--text-2);
+    font-size: clamp(1.05rem, 1.55vw, 1.24rem);
+    margin-top: 20px;
+    max-width: 58ch;
+    margin-inline: auto;
+  }
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .hero-note {
+    margin-top: 16px;
+    font-size: 0.85rem;
+    color: var(--text-3);
+  }
+
+  .hero-stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(12px, 4vw, 58px);
+    min-height: clamp(420px, 48vw, 560px);
+    margin-top: clamp(36px, 6vw, 70px);
+    padding: clamp(54px, 7vw, 82px) clamp(18px, 4vw, 46px) 0;
+    border-top: 1px solid var(--sep);
+    border-bottom: 1px solid var(--sep);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.38)),
+      radial-gradient(70% 80% at 50% 38%, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0) 72%);
+    overflow: hidden;
+  }
+  .menu-strip {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    transform: translateX(-50%);
+    color: var(--text-3);
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .strip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 4px rgba(52, 199, 89, 0.12);
+  }
+  .sync-node {
+    position: relative;
+    z-index: 1;
+  }
+  .sync-node::before {
+    content: '';
+    position: absolute;
+    inset: -14px;
+    border: 1px solid rgba(52, 199, 89, 0.2);
+    border-radius: 22px;
+    background: radial-gradient(circle, rgba(52, 199, 89, 0.16), transparent 62%);
+    filter: blur(1px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+  .mac-node::before {
+    animation: syncSource 3.8s ease-in-out infinite;
+  }
+  .phone-node::before {
+    border-color: rgba(52, 199, 89, 0.22);
+    background: radial-gradient(circle, rgba(52, 199, 89, 0.18), transparent 64%);
+    animation: syncReceive 3.8s ease-in-out infinite;
+  }
+  .lane-track {
+    position: relative;
+    flex: 0 0 auto;
+    width: clamp(48px, 8vw, 104px);
+    height: 74px;
+    display: grid;
+    place-items: center;
+    overflow: visible;
+  }
+  .lane-beam {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, transparent, rgba(52, 199, 89, 0.38) 14%, rgba(22, 163, 74, 0.64) 72%, transparent);
+    border-radius: 2px;
+    opacity: 0.58;
+  }
+  .lane-beam::before,
+  .lane-beam::after {
+    content: '';
+    position: absolute;
+    inset: -12px 12%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(52, 199, 89, 0), rgba(52, 199, 89, 0.22), rgba(52, 199, 89, 0));
+    filter: blur(12px);
+    animation: beamGlow 3.8s ease-in-out infinite;
+  }
+  .lane-beam::after {
+    inset: -22px 24%;
+    background: linear-gradient(90deg, rgba(52, 199, 89, 0), rgba(52, 199, 89, 0.2), rgba(52, 199, 89, 0));
+    animation-delay: 1.9s;
+  }
+  .lane-dot {
+    position: absolute;
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    margin-top: -4.5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.24);
+    animation: lane 1.6s ease-in-out infinite;
+  }
+  .lane-dot.d2 {
+    animation-delay: 0.8s;
+  }
+  .sync-packet {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.68);
+    border-radius: 10px;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.38)),
+      linear-gradient(135deg, #fefefe, #e7e4dc);
+    box-shadow:
+      0 10px 24px -10px rgba(24, 24, 27, 0.34),
+      0 0 0 5px rgba(52, 199, 89, 0.1);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: packetTravel 3.8s cubic-bezier(0.55, 0, 0.2, 1) infinite;
+  }
+  .sync-packet::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 6px 12px -6px rgba(20, 16, 50, 0.42);
+  }
+  .sync-packet::after {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    width: 28px;
+    height: 2px;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, transparent, rgba(52, 199, 89, 0.54));
+    border-radius: 2px;
+  }
+  .sync-packet.p2 {
+    width: 16px;
+    height: 16px;
+    border-radius: 7px;
+    animation-delay: 1.22s;
+    animation-duration: 3.8s;
+  }
+  .sync-packet.p2::before {
+    inset: 5px;
+  }
+  .sync-packet.p3 {
+    width: 18px;
+    height: 18px;
+    border-radius: 8px;
+    animation-delay: 2.48s;
+    animation-duration: 3.8s;
+  }
+  .sync-packet.p3::before {
+    inset: 5px;
+  }
+
+  @keyframes packetTravel {
+    0% {
+      left: 0%;
+      opacity: 0;
+      transform: translate(-50%, -50%) translateY(16px) scale(0.82);
+    }
+    10% {
+      opacity: 1;
+    }
+    52% {
+      transform: translate(-50%, -50%) translateY(-10px) scale(1);
+    }
+    82% {
+      left: 100%;
+      opacity: 1;
+      transform: translate(-50%, -50%) translateY(10px) scale(0.96);
+    }
+    100% {
+      left: 100%;
+      opacity: 0;
+      transform: translate(-50%, -50%) translateY(10px) scale(0.78);
+    }
+  }
+  @keyframes syncSource {
+    0%,
+    22%,
+    100% {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    8%,
+    16% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes syncReceive {
+    0%,
+    58%,
+    100% {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    70%,
+    84% {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+  }
+  @keyframes beamGlow {
+    0%,
+    100% {
+      opacity: 0.22;
+      transform: scaleX(0.86);
+    }
+    45%,
+    70% {
+      opacity: 1;
+      transform: scaleX(1.08);
+    }
+  }
+
+  @media (max-width: 880px) {
+    .hero-stage {
+      min-height: 500px;
+      gap: 12px;
+    }
+  }
+  @media (max-width: 640px) {
+    .hero-stage {
+      flex-direction: column;
+      min-height: 0;
+      padding-bottom: 34px;
+    }
+    .menu-strip {
+      gap: 12px;
+    }
+    .lane-track {
+      transform: rotate(90deg);
+    }
+  }
+  @media (max-width: 460px) {
+    .hero {
+      padding-top: 46px;
+    }
+    .hero-kicker {
+      font-size: clamp(3.8rem, 20vw, 5rem);
+    }
+    .lane-track {
+      width: 34px;
+      height: 58px;
+    }
+    .sync-packet {
+      width: 19px;
+      height: 19px;
+      border-radius: 8px;
+    }
+    .sync-packet::after {
+      width: 18px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sync-node::before {
+      opacity: 0.48 !important;
+      transform: scale(1) !important;
+    }
+    .lane-beam::before,
+    .lane-beam::after {
+      opacity: 0.7 !important;
+      transform: scaleX(1) !important;
+    }
+    .sync-packet {
+      animation: none !important;
+      opacity: 0 !important;
+    }
+    .sync-packet.p1 {
+      left: 50%;
+      opacity: 1 !important;
+      transform: translate(-50%, -50%) scale(1) !important;
+    }
+  }
+</style>
