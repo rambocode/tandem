@@ -9,6 +9,7 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const home = localizePath('/', lang); // 首页绝对路径，使锚点从子页也能正确回跳
 const langs = Object.entries(languages) as [Lang, string][];
 const shortLabel: Record<Lang, string> = { en: 'EN', zh: '中', ja: '日' };
 ---
@@ -20,10 +21,10 @@ const shortLabel: Record<Lang, string> = { en: 'EN', zh: '中', ja: '日' };
     </a>
 
     <nav class="hdr-nav" aria-label="Primary">
-      <a href="#features">{t.nav.features}</a>
-      <a href="#pro">{t.nav.pro}</a>
-      <a href="#pricing">{t.nav.pricing}</a>
-      <a href="#faq">{t.nav.faq}</a>
+      <a href={`${home}#features`}>{t.nav.features}</a>
+      <a href={`${home}#pro`}>{t.nav.pro}</a>
+      <a href={`${home}#pricing`}>{t.nav.pricing}</a>
+      <a href={`${home}#faq`}>{t.nav.faq}</a>
     </nav>
 
     <div class="hdr-end">

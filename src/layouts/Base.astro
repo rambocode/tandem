@@ -6,14 +6,21 @@ import { SITE } from '../config';
 
 interface Props {
   lang: Lang;
+  /** 站内路径（默认首页）。子页传入如 '/privacy/'，用于 canonical 与 hreflang。 */
+  path?: string;
+  /** 覆盖默认 meta title / description（子页用）。 */
+  title?: string;
+  description?: string;
 }
 
-const { lang } = Astro.props;
+const { lang, path = '/', title, description } = Astro.props;
 const t = useTranslations(lang);
+const pageTitle = title ?? t.meta.title;
+const pageDesc = description ?? t.meta.description;
 
 const htmlLang: Record<Lang, string> = { en: 'en', zh: 'zh-Hans', ja: 'ja' };
 const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`; // 规范成带尾斜杠，如 '/tandem/'
-const canonical = new URL(localizePath('/', lang), SITE.domain).href;
+const canonical = new URL(localizePath(path, lang), SITE.domain).href;
 const ogImage = new URL(`${base}og/tandem-og.png`, SITE.domain).href;
 const allLangs = Object.keys(languages) as Lang[];
 ---
@@ -23,8 +30,8 @@ const allLangs = Object.keys(languages) as Lang[];
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{t.meta.title}</title>
-    <meta name="description" content={t.meta.description} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
     <link rel="canonical" href={canonical} />
 
     {/* hreflang 互链 */}
@@ -33,16 +40,16 @@ const allLangs = Object.keys(languages) as Lang[];
         <link
           rel="alternate"
           hreflang={htmlLang[l]}
-          href={new URL(localizePath('/', l), SITE.domain).href}
+          href={new URL(localizePath(path, l), SITE.domain).href}
         />
       ))
     }
-    <link rel="alternate" hreflang="x-default" href={new URL(localizePath('/', 'en'), SITE.domain).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(localizePath(path, 'en'), SITE.domain).href} />
 
     {/* Open Graph / Twitter */}
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={t.meta.title} />
-    <meta property="og:description" content={t.meta.description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />

@@ -70,7 +70,7 @@ export interface Strings {
   };
   security: { heading: string; lead: string; points: Feature[] };
   faq: { heading: string; items: Faq[] };
-  footer: { tagline: string; rights: string; product: string; links: string[] };
+  footer: { tagline: string; rights: string; product: string; links: string[]; privacy: string };
 }
 
 export const ui: Record<Lang, Strings> = {
@@ -158,6 +158,7 @@ export const ui: Record<Lang, Strings> = {
         { q: 'Do my devices need to be on the same Wi-Fi?', a: 'Yes. Tandem syncs over the local network only, so your Mac and iPhone should be on the same Wi-Fi (or the same LAN). Nothing goes through the cloud.' },
         { q: 'Do I need an account?', a: 'No. There is no sign-up and no cloud. You pair your devices once with a QR or 6-digit code and you are done.' },
         { q: 'What can I sync?', a: 'Text, links, code snippets and colors on the free tier. Tandem Pro adds files and images up to 50 MB, all end-to-end encrypted.' },
+        { q: 'Is the iPhone app free?', a: 'Yes. The Tandem app for iPhone is completely free, with no in-app purchases — all syncing on iOS is free. Tandem Pro (file transfer, larger history and full-text search) is an optional one-time purchase on the Mac only.' },
         { q: 'Is Tandem a subscription?', a: 'No. Tandem Pro is a one-time purchase tied to a single Mac. You can release the license before switching machines and activate it on the new one.' },
         { q: 'What are the system requirements?', a: 'macOS 14 (Sonoma) or later on the Mac, and iOS 16 or later on iPhone.' },
         { q: 'Can I get a refund?', a: 'Yes — within 14 days of purchase, no questions asked, through Lemon Squeezy.' },
@@ -168,6 +169,7 @@ export const ui: Record<Lang, Strings> = {
       rights: 'All rights reserved.',
       product: 'Product',
       links: ['Features', 'Pro', 'Pricing', 'FAQ'],
+      privacy: 'Privacy Policy',
     },
   },
 
@@ -255,6 +257,7 @@ export const ui: Record<Lang, Strings> = {
         { q: '两台设备需要连同一个 Wi-Fi 吗？', a: '需要。Tandem 仅在局域网内同步，因此 Mac 与 iPhone 应处于同一 Wi-Fi（或同一局域网），数据不经过云端。' },
         { q: '需要注册账号吗？', a: '不需要。没有注册、没有云端。用二维码或 6 位验证码配对一次即可使用。' },
         { q: '可以同步哪些内容？', a: '免费版支持文本、链接、代码片段和颜色。Tandem Pro 增加最大 50 MB 的文件与图片传输，全部端到端加密。' },
+        { q: 'iPhone 版是免费的吗？', a: '是的。iPhone 上的 Tandem 完全免费，没有任何应用内购买——iOS 端的所有同步功能均免费。Tandem Pro（文件传输、大容量历史与全文搜索）是仅在 Mac 上的可选一次性买断。' },
         { q: 'Tandem 是订阅制吗？', a: '不是。Tandem Pro 是绑定单台 Mac 的一次性买断。换机前可取消激活，再在新机上重新激活。' },
         { q: '系统要求是什么？', a: 'Mac 端需要 macOS 14 (Sonoma) 或更高版本，iPhone 端需要 iOS 16 或更高版本。' },
         { q: '可以退款吗？', a: '可以——购买后 14 天内无理由退款，通过 Lemon Squeezy 办理。' },
@@ -265,6 +268,7 @@ export const ui: Record<Lang, Strings> = {
       rights: '保留所有权利。',
       product: '产品',
       links: ['功能', 'Pro', '价格', '常见问题'],
+      privacy: '隐私政策',
     },
   },
 
@@ -352,6 +356,7 @@ export const ui: Record<Lang, Strings> = {
         { q: '同じ Wi-Fi に接続している必要がありますか？', a: 'はい。Tandem はローカルネットワークのみで同期するため、Mac と iPhone は同じ Wi-Fi（または同じ LAN）にある必要があります。クラウドは経由しません。' },
         { q: 'アカウントは必要ですか？', a: 'いいえ。登録もクラウドもありません。QR または 6 桁コードで一度ペアリングすれば完了です。' },
         { q: '何を同期できますか？', a: '無料版ではテキスト・リンク・コード・カラー。Tandem Pro では最大 50 MB のファイルと画像も、すべてエンドツーエンド暗号化で送れます。' },
+        { q: 'iPhone 版は無料ですか？', a: 'はい。iPhone 版 Tandem は完全無料で、アプリ内課金はありません——iOS でのすべての同期機能は無料です。Tandem Pro（ファイル転送・大容量履歴・全文検索）は Mac のみの任意の買い切りです。' },
         { q: 'Tandem はサブスクですか？', a: 'いいえ。Tandem Pro は Mac 1 台に紐づく買い切りです。機種変更前に解除し、新しい Mac で再アクティベートできます。' },
         { q: '動作環境は？', a: 'Mac は macOS 14 (Sonoma) 以降、iPhone は iOS 16 以降が必要です。' },
         { q: '返金できますか？', a: 'はい——購入から 14 日以内なら理由を問わず、Lemon Squeezy 経由で返金します。' },
@@ -362,6 +367,7 @@ export const ui: Record<Lang, Strings> = {
       rights: 'All rights reserved.',
       product: '製品',
       links: ['機能', 'Pro', '価格', 'よくある質問'],
+      privacy: 'プライバシーポリシー',
     },
   },
 };
