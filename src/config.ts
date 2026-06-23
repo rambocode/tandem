@@ -11,8 +11,8 @@ export const SITE = {
 export const LINKS = {
   // macOS 安装包下载（GitHub Releases）
   macDownload: 'https://github.com/rambocode/tandem/releases',
-  // iOS App Store 链接，TODO 上架后填
-  appStore: '#appstore',
+  // iOS App Store 链接
+  appStore: 'https://apps.apple.com/cn/app/tandem-clip/id6781219533',
 } as const;
 
 export const REQUIREMENTS = {
