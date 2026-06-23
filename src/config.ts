@@ -9,8 +9,8 @@ export const SITE = {
 } as const;
 
 export const LINKS = {
-  // macOS 安装包下载（GitHub Releases / dmg 直链），TODO 待定
-  macDownload: '#download',
+  // macOS 安装包下载（GitHub Releases）
+  macDownload: 'https://github.com/rambocode/tandem/releases',
   // iOS App Store 链接，TODO 上架后填
   appStore: '#appstore',
   // Lemon Squeezy 结账地址，与客户端 LicenseManager.checkoutURL 保持一致
