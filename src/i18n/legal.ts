@@ -13,7 +13,7 @@ export interface LegalSection {
   list?: string[];
 }
 
-export interface PrivacyDoc {
+export interface LegalDoc {
   /** 浏览器标题 / H1 */
   title: string;
   /** SEO 描述 */
@@ -26,11 +26,13 @@ export interface PrivacyDoc {
   backHome: string;
 }
 
+export type PrivacyDoc = LegalDoc;
+
 /** 开发者联系邮箱（用于隐私政策与 App Store 审核）。如需更换支持邮箱，改这一处即可。 */
 export const CONTACT_EMAIL = 'nesocks@gmail.com';
 const UPDATED = '2026-06-17';
 
-export const privacy: Record<Lang, PrivacyDoc> = {
+export const privacy: Record<Lang, LegalDoc> = {
   // ───────────────────────────── English ─────────────────────────────
   en: {
     title: 'Privacy Policy',
@@ -70,12 +72,6 @@ export const privacy: Record<Lang, PrivacyDoc> = {
         list: [
           'Local Network: required to discover and connect to your other Tandem device on the same Wi-Fi. It is used only for device-to-device transfer and never to send data to us.',
           'Other system permissions (e.g. when you choose to send a file via the share sheet) are used only to perform the action you requested, at the moment you request it.',
-        ],
-      },
-      {
-        h: 'Payments (Mac only)',
-        p: [
-          'The iPhone app is free and has no in-app purchases. The optional Tandem Pro upgrade is sold only on the Mac and is handled by our payment processor, Lemon Squeezy, which processes your purchase and the email used for license delivery under its own privacy policy. This does not apply to the iPhone app.',
         ],
       },
       {
@@ -146,12 +142,6 @@ export const privacy: Record<Lang, PrivacyDoc> = {
         ],
       },
       {
-        h: '支付（仅 Mac）',
-        p: [
-          'iPhone 应用免费，且无任何应用内购买。可选的 Tandem Pro 升级仅在 Mac 上出售，由支付服务商 Lemon Squeezy 处理；你的购买信息及用于发放授权码的邮箱由其依据自身隐私政策处理。此项不适用于 iPhone 应用。',
-        ],
-      },
-      {
         h: '儿童隐私',
         p: ['Tandem 并非面向儿童，也不会在知情情况下收集任何人（包括儿童）的个人信息。'],
       },
@@ -215,12 +205,6 @@ export const privacy: Record<Lang, PrivacyDoc> = {
         ],
       },
       {
-        h: '支払い（Mac のみ）',
-        p: [
-          'iPhone アプリは無料で、アプリ内課金はありません。任意の Tandem Pro へのアップグレードは Mac でのみ販売され、決済代行の Lemon Squeezy が処理します。購入情報やライセンス送付用のメールは、同社のプライバシーポリシーに基づき扱われます。これは iPhone アプリには適用されません。',
-        ],
-      },
-      {
         h: '子どものプライバシー',
         p: ['Tandem は子ども向けではなく、子どもを含むいかなる人物の個人情報も故意に収集することはありません。'],
       },
@@ -237,6 +221,215 @@ export const privacy: Record<Lang, PrivacyDoc> = {
       {
         h: 'お問い合わせ',
         p: [`本ポリシーに関するご質問は ${CONTACT_EMAIL} までメールください。`],
+      },
+    ],
+    backHome: '← ホームに戻る',
+  },
+};
+
+export const terms: Record<Lang, LegalDoc> = {
+  en: {
+    title: 'Terms of Service',
+    metaDescription:
+      'Terms of Service for Tandem, a local-network clipboard and file-transfer app for Mac and iPhone.',
+    updatedLabel: 'Last updated',
+    updated: UPDATED,
+    intro: [
+      'These Terms of Service ("Terms") govern your access to and use of Tandem. By downloading, installing or using Tandem, you agree to these Terms.',
+      'If you do not agree to these Terms, do not use Tandem.',
+    ],
+    sections: [
+      {
+        h: 'The service',
+        p: [
+          'Tandem is a local-network clipboard and file-transfer app for Mac and iPhone. It is designed to work between your own paired devices over the same local network.',
+          'Tandem does not provide cloud storage, hosted sync, user accounts or a public file-sharing service.',
+        ],
+      },
+      {
+        h: 'Your responsibilities',
+        list: [
+          'Use Tandem only with devices and content that you own or have permission to access.',
+          'Do not use Tandem to transmit unlawful, harmful or infringing content.',
+          'Keep your devices, operating systems and local network secure.',
+        ],
+      },
+      {
+        h: 'Paid features',
+        p: [
+          'Some Mac features may require a paid license. If you purchase paid features, payment processing, tax handling and license delivery may be handled by our payment provider or merchant of record.',
+          'Any prices, supported payment methods, refund windows or regional availability are shown at the point of purchase when checkout is available.',
+        ],
+      },
+      {
+        h: 'Updates and availability',
+        p: [
+          'We may update Tandem to improve reliability, security and compatibility. Features may change over time.',
+          'Tandem depends on your devices, operating systems and local network. We cannot guarantee uninterrupted or error-free operation in every environment.',
+        ],
+      },
+      {
+        h: 'Privacy',
+        p: [
+          'Your use of Tandem is also governed by our Privacy Policy, which explains what data Tandem handles and how.',
+        ],
+      },
+      {
+        h: 'Disclaimer',
+        p: [
+          'Tandem is provided "as is" and "as available" to the maximum extent permitted by law. We disclaim warranties of merchantability, fitness for a particular purpose and non-infringement.',
+        ],
+      },
+      {
+        h: 'Limitation of liability',
+        p: [
+          'To the maximum extent permitted by law, Tandem and its developer will not be liable for indirect, incidental, special, consequential or punitive damages, or for loss of data, profits or business opportunities.',
+        ],
+      },
+      {
+        h: 'Changes to these Terms',
+        p: [
+          'We may update these Terms from time to time. Material changes will be reflected by updating the "Last updated" date above.',
+        ],
+      },
+      {
+        h: 'Contact',
+        p: [`Questions about these Terms? Email us at ${CONTACT_EMAIL}.`],
+      },
+    ],
+    backHome: '← Back to home',
+  },
+
+  zh: {
+    title: '服务条款',
+    metaDescription: 'Tandem 服务条款。Tandem 是用于 Mac 与 iPhone 的局域网剪贴板与文件传输应用。',
+    updatedLabel: '最后更新',
+    updated: UPDATED,
+    intro: [
+      '本服务条款（以下简称“条款”）适用于你访问和使用 Tandem。下载、安装或使用 Tandem，即表示你同意本条款。',
+      '如果你不同意本条款，请不要使用 Tandem。',
+    ],
+    sections: [
+      {
+        h: '服务内容',
+        p: [
+          'Tandem 是用于 Mac 与 iPhone 的局域网剪贴板与文件传输应用，设计用于你自己已配对的设备之间，在同一局域网内工作。',
+          'Tandem 不提供云存储、托管同步、用户账号或公开文件分享服务。',
+        ],
+      },
+      {
+        h: '你的责任',
+        list: [
+          '仅在你拥有或被授权访问的设备和内容上使用 Tandem。',
+          '不得使用 Tandem 传输违法、有害或侵权内容。',
+          '请自行维护设备、操作系统和本地网络的安全。',
+        ],
+      },
+      {
+        h: '付费功能',
+        p: [
+          '部分 Mac 功能可能需要付费授权。如果你购买付费功能，支付处理、税费处理和授权交付可能由我们的支付服务商或登记商户完成。',
+          '当结账可用时，价格、支持的支付方式、退款窗口和地区可用性会在购买页面显示。',
+        ],
+      },
+      {
+        h: '更新与可用性',
+        p: [
+          '我们可能更新 Tandem，以提升可靠性、安全性和兼容性。功能可能随时间变化。',
+          'Tandem 依赖你的设备、操作系统与本地网络环境。我们无法保证在所有环境中都持续、无错误运行。',
+        ],
+      },
+      {
+        h: '隐私',
+        p: ['你使用 Tandem 同时受我们的隐私政策约束。隐私政策说明 Tandem 会处理哪些数据以及如何处理。'],
+      },
+      {
+        h: '免责声明',
+        p: [
+          '在法律允许的最大范围内，Tandem 按“现状”和“可用状态”提供。我们不作适销性、特定用途适用性或不侵权等明示或默示保证。',
+        ],
+      },
+      {
+        h: '责任限制',
+        p: [
+          '在法律允许的最大范围内，Tandem 及其开发者不对任何间接、附带、特殊、后果性或惩罚性损害，或数据、利润、商业机会损失承担责任。',
+        ],
+      },
+      {
+        h: '本条款的变更',
+        p: ['我们可能不时更新本条款。重大变更将通过更新上方“最后更新”日期予以体现。'],
+      },
+      {
+        h: '联系我们',
+        p: [`对本条款有疑问？请发邮件至 ${CONTACT_EMAIL}。`],
+      },
+    ],
+    backHome: '← 返回首页',
+  },
+
+  ja: {
+    title: '利用規約',
+    metaDescription:
+      'Tandem の利用規約。Tandem は Mac と iPhone 向けのローカルネットワーク・クリップボードおよびファイル転送アプリです。',
+    updatedLabel: '最終更新',
+    updated: UPDATED,
+    intro: [
+      '本利用規約（以下「本規約」）は、Tandem へのアクセスおよび利用に適用されます。Tandem をダウンロード、インストール、または利用することで、本規約に同意したものとみなされます。',
+      '本規約に同意しない場合は、Tandem を利用しないでください。',
+    ],
+    sections: [
+      {
+        h: 'サービス内容',
+        p: [
+          'Tandem は Mac と iPhone 向けのローカルネットワーク・クリップボードおよびファイル転送アプリであり、あなた自身のペアリング済みデバイス間で、同じローカルネットワーク上で動作するよう設計されています。',
+          'Tandem はクラウドストレージ、ホスト型同期、ユーザーアカウント、公開ファイル共有サービスを提供しません。',
+        ],
+      },
+      {
+        h: '利用者の責任',
+        list: [
+          '所有している、またはアクセス権限のあるデバイスと内容にのみ Tandem を使用してください。',
+          '違法、有害、または権利侵害となる内容の送信に Tandem を使用しないでください。',
+          'デバイス、OS、ローカルネットワークの安全性は利用者自身で維持してください。',
+        ],
+      },
+      {
+        h: '有料機能',
+        p: [
+          '一部の Mac 機能には有料ライセンスが必要な場合があります。有料機能を購入する場合、決済処理、税金処理、ライセンス送付は当方の決済サービスまたは Merchant of Record により処理されることがあります。',
+          'チェックアウトが利用可能な場合、価格、対応する支払い方法、返金期間、地域別の利用可否は購入画面に表示されます。',
+        ],
+      },
+      {
+        h: 'アップデートと可用性',
+        p: [
+          '当方は信頼性、セキュリティ、互換性を向上させるため Tandem を更新する場合があります。機能は時間とともに変更されることがあります。',
+          'Tandem は利用者のデバイス、OS、ローカルネットワーク環境に依存します。すべての環境で中断なく、またはエラーなく動作することは保証できません。',
+        ],
+      },
+      {
+        h: 'プライバシー',
+        p: ['Tandem の利用にはプライバシーポリシーも適用されます。プライバシーポリシーは Tandem が扱うデータとその扱い方を説明します。'],
+      },
+      {
+        h: '免責事項',
+        p: [
+          '法令で認められる最大限の範囲で、Tandem は「現状有姿」および「提供可能な状態」で提供されます。当方は商品性、特定目的適合性、非侵害について明示または黙示の保証を行いません。',
+        ],
+      },
+      {
+        h: '責任の制限',
+        p: [
+          '法令で認められる最大限の範囲で、Tandem およびその開発者は、間接的、付随的、特別、結果的、懲罰的損害、またはデータ、利益、事業機会の損失について責任を負いません。',
+        ],
+      },
+      {
+        h: '本規約の変更',
+        p: ['本規約は随時更新される場合があります。重要な変更は、上記の「最終更新」日付を更新して反映します。'],
+      },
+      {
+        h: 'お問い合わせ',
+        p: [`本規約に関するご質問は ${CONTACT_EMAIL} までメールください。`],
       },
     ],
     backHome: '← ホームに戻る',

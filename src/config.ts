@@ -13,17 +13,6 @@ export const LINKS = {
   macDownload: 'https://github.com/rambocode/tandem/releases',
   // iOS App Store 链接，TODO 上架后填
   appStore: '#appstore',
-  // Lemon Squeezy 结账地址，与客户端 LicenseManager.checkoutURL 保持一致
-  checkout: 'https://tandem-app.lemonsqueezy.com/buy/4a9940ae-5080-4baa-8a62-8d0d9adb18b2',
-} as const;
-
-/**
- * 定价：当前对应 Lemon Squeezy test-mode draft 产品，发布前可调整。
- * 每种货币展示文本，price 为主显示，note 为补充说明键（见 i18n）。
- */
-export const PRICING = {
-  amount: 'CN¥49',
-  currency: 'CNY',
 } as const;
 
 export const REQUIREMENTS = {

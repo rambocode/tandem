@@ -4,13 +4,13 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import { localizePath } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
-import type { PrivacyDoc } from '../i18n/legal';
+import type { LegalDoc } from '../i18n/legal';
 
 interface Props {
   lang: Lang;
   /** 站内路径，用于 canonical / hreflang，如 '/privacy/'。 */
   path: string;
-  doc: PrivacyDoc;
+  doc: LegalDoc;
 }
 const { lang, path, doc } = Astro.props;
 const home = localizePath('/', lang);

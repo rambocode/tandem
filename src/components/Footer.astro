@@ -10,8 +10,9 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const home = localizePath('/', lang); // 锚点指向首页，子页可正确回跳
-const anchors = [`${home}#features`, `${home}#pro`, `${home}#pricing`, `${home}#faq`];
+const anchors = [`${home}#features`, `${home}#pro`, `${home}#faq`];
 const privacyHref = localizePath('/privacy/', lang);
+const termsHref = localizePath('/terms/', lang);
 const year = 2026; // Date.now() 在构建沙箱不可用，固定当前年份
 ---
 
@@ -28,7 +29,10 @@ const year = 2026; // Date.now() 在构建沙箱不可用，固定当前年份
   </div>
   <div class="container ft-bottom">
     <span>© {year} {SITE.name}. {t.footer.rights}</span>
-    <a class="ft-legal" href={privacyHref}>{t.footer.privacy}</a>
+    <span class="ft-legal-links">
+      <a class="ft-legal" href={privacyHref}>{t.footer.privacy}</a>
+      <a class="ft-legal" href={termsHref}>{t.footer.terms}</a>
+    </span>
     <span class="ft-version">{SITE.versionLine}</span>
   </div>
 </footer>
@@ -82,6 +86,11 @@ const year = 2026; // Date.now() 在构建沙箱不可用，固定当前年份
   }
   .ft-legal:hover {
     color: var(--text-1);
+  }
+  .ft-legal-links {
+    display: inline-flex;
+    gap: 14px;
+    flex-wrap: wrap;
   }
   .ft-version {
     font-family: var(--font-round);
