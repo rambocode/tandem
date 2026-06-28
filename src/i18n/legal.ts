@@ -29,7 +29,7 @@ export interface LegalDoc {
 export type PrivacyDoc = LegalDoc;
 
 /** 开发者联系邮箱（用于隐私政策与 App Store 审核）。如需更换支持邮箱，改这一处即可。 */
-export const CONTACT_EMAIL = 'nesocks@gmail.com';
+export const CONTACT_EMAIL = 'service@tandem-clip.com';
 const UPDATED = '2026-06-17';
 
 export const privacy: Record<Lang, LegalDoc> = {
