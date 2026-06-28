@@ -4,15 +4,15 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     <channel>
         <title>Tandem</title>
         <item>
-            <title>0.1.2</title>
-            <pubDate>Tue, 23 Jun 2026 14:45:06 +0000</pubDate>
-            <sparkle:version>102</sparkle:version>
-            <sparkle:shortVersionString>0.1.2</sparkle:shortVersionString>
+            <title>0.1.4</title>
+            <pubDate>Wed, 24 Jun 2026 07:31:21 +0000</pubDate>
+            <sparkle:version>104</sparkle:version>
+            <sparkle:shortVersionString>0.1.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/rambocode/tandem/releases/download/v0.1.2/Tandem-macOS-universal.dmg" length="8906539" type="application/octet-stream" sparkle:edSignature="JfIwmvZBwqb9eck2qLUzEAvWBrexPpcSv35FdJrOgQlFuHjmneaZAsynJCkXgE3nHSY9e6H3UBst98tZDCp9CQ=="></enclosure>
+            <enclosure url="https://github.com/rambocode/tandem/releases/download/v0.1.4/Tandem-macOS-universal.dmg" length="8908790" type="application/octet-stream" sparkle:edSignature="GIwi2IKrACIYx6VTeSbGR+Q6QUveWOhslVVQQDYWQfMyyZvXiXO5TjE5VOuDafjqkWPmlEbO9zqZpSIaM/VuDw=="></enclosure>
         </item>
     </channel>
 </rss><!-- sparkle-signatures:
-edSignature: 5I0gaEt69w4TviM9TwSE68B7MJNOxhgfKuGma0lzV9y2LlcJrkLf6rn+Y0e4iTKcES6PZIALmrEIFbcU5083Ag==
+edSignature: QNoh2d12l/JPaKuqfVjLpyzmYnffR42cXADHhOAtCfWJNgZJva481gC0wRbchCpjqyxIKl/ZdSzbcSp7VLr8Bg==
 length: 1048
 -->
