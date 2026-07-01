@@ -4,7 +4,7 @@
  */
 export const SITE = {
   name: 'Tandem',
-  domain: 'https://rambocode.github.io', // GitHub Pages origin；站点实际位于 /tandem 子路径（见 astro.config base）
+  domain: 'https://tandem-clip.com', // 自定义域名（Custom Domain）；站点位于根路径（见 public/CNAME）
   versionLine: 'Tandem 1.0',
 } as const;
 

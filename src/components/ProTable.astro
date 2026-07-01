@@ -21,6 +21,10 @@ function cell(value: string) {
       <p class="eyebrow">{t.pro.badge}</p>
       <h2 class="section-title">{t.pro.heading}</h2>
       <p class="section-lead">{t.pro.lead}</p>
+      <p class="pro-price">
+        <span class="amount">{t.pro.price}</span>
+        <span class="note">{t.pro.priceNote}</span>
+      </p>
     </header>
 
     <div class="pro-table card">
@@ -62,6 +66,24 @@ function cell(value: string) {
   .pro-head {
     max-width: 720px;
     margin-bottom: clamp(28px, 4vw, 44px);
+  }
+  .pro-price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .pro-price .amount {
+    font-size: clamp(1.9rem, 3.4vw, 2.4rem);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text-1);
+    letter-spacing: -0.01em;
+  }
+  .pro-price .note {
+    font-size: 0.9rem;
+    color: var(--text-2);
   }
   .pro-table {
     background: transparent;

@@ -52,6 +52,10 @@ export interface Strings {
     badge: string;
     heading: string;
     lead: string;
+    /** Pro 售价，如 '$19.99'（在网站明示价格，满足支付平台合规要求） */
+    price: string;
+    /** 价格说明，如 'One-time purchase · lifetime license' */
+    priceNote: string;
     free: string;
     proLabel: string;
     rows: ProRow[];
@@ -110,6 +114,8 @@ export const ui: Record<Lang, Strings> = {
       badge: 'Tandem Pro',
       heading: 'Unlock more room for serious workflows',
       lead: 'Tandem Pro on Mac adds files, deeper history and search for people who move more between devices.',
+      price: '$19.99',
+      priceNote: 'One-time purchase · lifetime license, no subscription',
       free: 'Core',
       proLabel: 'Pro',
       rows: [
@@ -198,6 +204,8 @@ export const ui: Record<Lang, Strings> = {
       badge: 'Tandem Pro',
       heading: '为更高频的跨设备工作流解锁更多空间',
       lead: 'Mac 端 Tandem Pro 增加文件传输、大容量历史与全文搜索，适合更频繁地在设备间搬运内容。',
+      price: '$19.99',
+      priceNote: '一次性买断 · 永久授权，无订阅',
       free: '基础版',
       proLabel: 'Pro',
       rows: [
@@ -286,6 +294,8 @@ export const ui: Record<Lang, Strings> = {
       badge: 'Tandem Pro',
       heading: '本格的なワークフローに、より多くの余裕を',
       lead: 'Mac 版 Tandem Pro では、ファイル転送・大容量履歴・検索を追加し、デバイス間でより多くの内容を扱えます。',
+      price: '$19.99',
+      priceNote: '買い切り · 永続ライセンス、サブスクなし',
       free: 'Core',
       proLabel: 'Pro',
       rows: [
