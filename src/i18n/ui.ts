@@ -64,7 +64,15 @@ export interface Strings {
   };
   security: { heading: string; lead: string; points: Feature[] };
   faq: { heading: string; items: Faq[] };
-  footer: { tagline: string; rights: string; product: string; links: string[]; privacy: string; terms: string };
+  footer: {
+    tagline: string;
+    rights: string;
+    product: string;
+    links: string[];
+    privacy: string;
+    terms: string;
+    changelog: string;
+  };
 }
 
 export const ui: Record<Lang, Strings> = {
@@ -106,6 +114,8 @@ export const ui: Record<Lang, Strings> = {
         { title: 'Pair with a QR code', desc: 'Point your iPhone at the code shown on your Mac, or type a 6-digit code. Paired in seconds.' },
         { title: 'Share Extension', desc: 'Send anything to your Mac straight from the iOS share sheet — no app switching.' },
         { title: 'Custom keyboard', desc: 'Drop Mac clipboard content into any text field on iPhone, right from the keyboard.' },
+        { title: 'Screenshots, built in', desc: 'Capture any area of your screen with a hotkey — floating panels and popovers included — straight into your clipboard history. Free.' },
+        { title: 'Image markup editor', desc: 'Annotate images and screenshots with arrows, shapes, text bubbles, blur/mosaic, OCR-aware text redaction and a measurement ruler. Export lands right back in your clipboard.' },
         { title: 'Lives in the menu bar', desc: 'A quiet menu-bar companion on Mac with a global hotkey — no Accessibility permission required.' },
         { title: 'Dark mode & your language', desc: 'Follows the system appearance and language. English, 简体中文 and 日本語 built in.' },
       ],
@@ -146,15 +156,17 @@ export const ui: Record<Lang, Strings> = {
         { q: 'What can I sync?', a: 'Text, links, code snippets and colors in Core. Tandem Pro adds files and images up to 50 MB, all end-to-end encrypted.' },
         { q: 'What does the iPhone app send to Tandem?', a: 'Nothing to us. iPhone data moves only between your paired devices over the local network.' },
         { q: 'What are the system requirements?', a: 'macOS 14 (Sonoma) or later on the Mac, and iOS 16 or later on iPhone.' },
+        { q: 'How is this different from Apple’s Universal Clipboard?', a: 'Universal Clipboard keeps no history — each copy overwrites the last — cannot transfer arbitrary files, and can be unreliable. Tandem syncs continuously, keeps a searchable history, and transfers files up to 50 MB, all without your data ever leaving the local network.' },
       ],
     },
     footer: {
       tagline: 'LAN clipboard · No account, no cloud',
       rights: 'All rights reserved.',
       product: 'Product',
-      links: ['Features', 'Pro', 'FAQ'],
+      links: ['Features', 'Pro', 'FAQ', 'Compare'],
       privacy: 'Privacy Policy',
       terms: 'Terms of Service',
+      changelog: 'Changelog',
     },
   },
 
@@ -196,6 +208,8 @@ export const ui: Record<Lang, Strings> = {
         { title: '扫码即配对', desc: '用 iPhone 对准 Mac 上显示的二维码，或输入 6 位验证码，几秒即可配对。' },
         { title: '分享扩展', desc: '在 iOS 分享菜单里直接发送内容到 Mac，无需来回切换 App。' },
         { title: '自定义键盘', desc: '在 iPhone 任意输入框里，直接从键盘插入 Mac 上的剪贴板内容。' },
+        { title: '内置截屏', desc: '快捷键框选截屏，网页弹出层等浮层也能完整捕获，截图直接进入剪贴板历史。免费。' },
+        { title: '图片标注编辑器', desc: '箭头、矩形、文字气泡、模糊/马赛克、OCR 文字打码与测量标尺，一套轻量标注闭环，导出即回到剪贴板。' },
         { title: '常驻菜单栏', desc: 'Mac 上安静常驻菜单栏，配全局快捷键唤出——无需开启辅助功能权限。' },
         { title: '深色模式 · 多语言', desc: '跟随系统外观与语言，内置 English、简体中文与日本語。' },
       ],
@@ -236,15 +250,17 @@ export const ui: Record<Lang, Strings> = {
         { q: '可以同步哪些内容？', a: '基础版支持文本、链接、代码片段和颜色。Tandem Pro 增加最大 50 MB 的文件与图片传输，全部端到端加密。' },
         { q: 'iPhone 版会向 Tandem 发送什么数据？', a: '不会向我们发送任何数据。iPhone 上的内容只会在你已配对的设备之间通过局域网传输。' },
         { q: '系统要求是什么？', a: 'Mac 端需要 macOS 14 (Sonoma) 或更高版本，iPhone 端需要 iOS 16 或更高版本。' },
+        { q: '和苹果自带的通用剪贴板有什么区别？', a: '通用剪贴板没有历史记录（复制新内容会覆盖上一条）、不能传任意文件，而且时常失灵。Tandem 持续同步、保留可搜索的历史记录，还能传输最大 50 MB 的文件——数据同样不出局域网。' },
       ],
     },
     footer: {
       tagline: '局域网剪贴板 · 无账号，无云端',
       rights: '保留所有权利。',
       product: '产品',
-      links: ['功能', 'Pro', '常见问题'],
+      links: ['功能', 'Pro', '常见问题', '横向对比'],
       privacy: '隐私政策',
       terms: '服务条款',
+      changelog: '更新日志',
     },
   },
 
@@ -286,6 +302,8 @@ export const ui: Record<Lang, Strings> = {
         { title: 'QR コードでペアリング', desc: 'Mac に表示された QR コードに iPhone を向けるか、6 桁のコードを入力。数秒で完了します。' },
         { title: '共有エクステンション', desc: 'iOS の共有シートから直接 Mac へ送信。アプリを切り替える必要はありません。' },
         { title: 'カスタムキーボード', desc: 'iPhone のどの入力欄でも、キーボードから Mac のクリップボード内容を挿入できます。' },
+        { title: 'スクリーンショット内蔵', desc: 'ホットキーで範囲キャプチャ。ポップオーバーなどの浮遊パネルも逃さず、そのまま履歴に入ります。無料。' },
+        { title: '画像マークアップエディタ', desc: '矢印・図形・テキストバブル・ぼかし/モザイク・OCR 対応の文字マスキング・測定ルーラー。書き出しはそのままクリップボードへ。' },
         { title: 'メニューバーに常駐', desc: 'Mac のメニューバーに静かに常駐し、グローバルショートカットで呼び出し——アクセシビリティ権限は不要。' },
         { title: 'ダークモード · 多言語', desc: 'システムの外観と言語に追従。English・简体中文・日本語を内蔵。' },
       ],
@@ -326,15 +344,17 @@ export const ui: Record<Lang, Strings> = {
         { q: '何を同期できますか？', a: 'Core ではテキスト・リンク・コード・カラー。Tandem Pro では最大 50 MB のファイルと画像も、すべてエンドツーエンド暗号化で送れます。' },
         { q: 'iPhone 版は Tandem にどんなデータを送りますか？', a: '当方には何も送信しません。iPhone 上の内容は、ペアリング済みデバイス間でローカルネットワーク上を移動するだけです。' },
         { q: '動作環境は？', a: 'Mac は macOS 14 (Sonoma) 以降、iPhone は iOS 16 以降が必要です。' },
+        { q: 'Apple のユニバーサルクリップボードと何が違いますか？', a: 'ユニバーサルクリップボードには履歴がなく（新しいコピーが前の内容を上書き）、任意のファイルは送れず、動作が不安定なこともあります。Tandem は常時同期し、検索可能な履歴を保持し、最大 50 MB のファイルも転送できます——データが LAN の外に出ることはありません。' },
       ],
     },
     footer: {
       tagline: 'LAN クリップボード · アカウントなし、クラウドなし',
       rights: 'All rights reserved.',
       product: '製品',
-      links: ['機能', 'Pro', 'よくある質問'],
+      links: ['機能', 'Pro', 'よくある質問', '比較'],
       privacy: 'プライバシーポリシー',
       terms: '利用規約',
+      changelog: '更新履歴',
     },
   },
 };

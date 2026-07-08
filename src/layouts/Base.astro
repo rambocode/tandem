@@ -23,6 +23,21 @@ const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`; // 规范成带�
 const canonical = new URL(localizePath(path, lang), SITE.domain).href;
 const ogImage = new URL(`${base}og/tandem-og.png`, SITE.domain).href;
 const allLangs = Object.keys(languages) as Lang[];
+
+// SoftwareApplication 结构化数据（搜索结果富摘要：价格、平台、类别）
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: SITE.name,
+  operatingSystem: 'macOS 14.0+, iOS 16.0+',
+  applicationCategory: 'UtilitiesApplication',
+  description: pageDesc,
+  url: SITE.domain,
+  offers: [
+    { '@type': 'Offer', name: 'Tandem Core', price: '0', priceCurrency: 'USD' },
+    { '@type': 'Offer', name: 'Tandem Pro (lifetime)', price: '19.99', priceCurrency: 'USD' },
+  ],
+});
 ---
 
 <!doctype html>
@@ -56,6 +71,7 @@ const allLangs = Object.keys(languages) as Lang[];
 
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="theme-color" content="#6d5bff" />
+    <script type="application/ld+json" set:html={jsonLd} />
   </head>
   <body>
     <slot />

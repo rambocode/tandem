@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://tandem-clip.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tandem-clip.com/" />
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://tandem-clip.com/zh/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://tandem-clip.com/ja/" />
+  </url>
+  <url><loc>https://tandem-clip.com/zh/</loc></url>
+  <url><loc>https://tandem-clip.com/ja/</loc></url>
+  <url>
+    <loc>https://tandem-clip.com/compare/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tandem-clip.com/compare/" />
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://tandem-clip.com/zh/compare/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://tandem-clip.com/ja/compare/" />
+  </url>
+  <url><loc>https://tandem-clip.com/zh/compare/</loc></url>
+  <url><loc>https://tandem-clip.com/ja/compare/</loc></url>
+  <url><loc>https://tandem-clip.com/changelog/</loc></url>
+  <url><loc>https://tandem-clip.com/zh/changelog/</loc></url>
+  <url><loc>https://tandem-clip.com/ja/changelog/</loc></url>
+  <url><loc>https://tandem-clip.com/privacy/</loc></url>
+  <url><loc>https://tandem-clip.com/zh/privacy/</loc></url>
+  <url><loc>https://tandem-clip.com/ja/privacy/</loc></url>
+  <url><loc>https://tandem-clip.com/terms/</loc></url>
+  <url><loc>https://tandem-clip.com/zh/terms/</loc></url>
+  <url><loc>https://tandem-clip.com/ja/terms/</loc></url>
+</urlset>

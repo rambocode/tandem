@@ -1,0 +1,182 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import { compare } from '../i18n/compare';
+import type { Lang } from '../i18n/ui';
+import { LINKS } from '../config';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = compare[lang];
+
+/** 'yes' / 'no' 渲染为符号，其余按文本渲染。 */
+function cell(value: string) {
+  if (value === 'yes') return { type: 'yes' as const };
+  if (value === 'no') return { type: 'no' as const };
+  return { type: 'text' as const, text: value };
+}
+---
+
+<Base lang={lang} path="/compare/" title={c.meta.title} description={c.meta.description}>
+  <Header lang={lang} />
+  <main>
+    <section class="section">
+      <div class="container">
+        <header class="cmp-head">
+          <p class="eyebrow">{c.eyebrow}</p>
+          <h1 class="section-title">{c.title}</h1>
+          <p class="section-lead">{c.lead}</p>
+        </header>
+
+        <div class="cmp-scroll">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th></th>
+                {c.columns.map((col, i) => <th class={i === 0 ? 'cmp-us' : ''}>{col}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {
+                c.rows.map((row) => (
+                  <tr>
+                    <th scope="row">{row.feature}</th>
+                    {row.cells.map((v, i) => {
+                      const r = cell(v);
+                      return (
+                        <td class={i === 0 ? 'cmp-us' : ''}>
+                          {r.type === 'yes' && <i class={`ck${i === 0 ? ' on' : ''}`}>✓</i>}
+                          {r.type === 'no' && <i class="dash">—</i>}
+                          {r.type === 'text' && <i class="txt">{r.text}</i>}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="cmp-disclaimer">{c.disclaimer}</p>
+
+        <div class="cmp-vs">
+          {
+            c.vs.map((s) => (
+              <article>
+                <h2>{s.heading}</h2>
+                <p>{s.body}</p>
+              </article>
+            ))
+          }
+        </div>
+
+        <div class="cmp-cta card">
+          <h2>{c.cta.heading}</h2>
+          <p>{c.cta.lead}</p>
+          <div class="cmp-cta-btns">
+            <a href={LINKS.macDownload} class="btn btn-primary">{c.cta.mac}</a>
+            <a href={LINKS.appStore} class="btn btn-ghost">{c.cta.ios}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} />
+</Base>
+
+<style>
+  .cmp-head {
+    max-width: 720px;
+    margin-bottom: clamp(28px, 4vw, 44px);
+  }
+  .cmp-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cmp-table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+  .cmp-table th,
+  .cmp-table td {
+    padding: 14px 12px;
+    border-top: 1px solid var(--sep);
+    text-align: center;
+    color: var(--text-2);
+  }
+  .cmp-table thead th {
+    border-top: none;
+    font-weight: 700;
+    color: var(--text-1);
+  }
+  .cmp-table tbody th[scope='row'] {
+    text-align: left;
+    color: var(--text-1);
+    font-weight: 500;
+    padding-left: 0;
+  }
+  .cmp-us {
+    background: rgba(255, 255, 255, 0.62);
+    border-inline: 1px solid var(--sep);
+    color: var(--text-1) !important;
+    font-weight: 700;
+  }
+  .ck {
+    font-style: normal;
+    color: var(--text-3);
+    font-size: 1.05rem;
+  }
+  .ck.on {
+    color: var(--green);
+  }
+  .dash,
+  .txt {
+    font-style: normal;
+  }
+  .dash {
+    color: var(--text-3);
+  }
+  .cmp-disclaimer {
+    margin-top: 14px;
+    font-size: 0.8rem;
+    color: var(--text-3);
+  }
+  .cmp-vs {
+    margin-top: clamp(40px, 6vw, 64px);
+    display: grid;
+    gap: clamp(24px, 4vw, 40px);
+    max-width: 720px;
+  }
+  .cmp-vs h2 {
+    font-size: 1.25rem;
+  }
+  .cmp-vs p {
+    margin-top: 10px;
+    color: var(--text-2);
+    line-height: 1.7;
+  }
+  .cmp-cta {
+    margin-top: clamp(40px, 6vw, 64px);
+    padding: clamp(28px, 4vw, 44px);
+    text-align: center;
+  }
+  .cmp-cta h2 {
+    font-size: 1.5rem;
+  }
+  .cmp-cta p {
+    margin-top: 8px;
+    color: var(--text-2);
+  }
+  .cmp-cta-btns {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>
