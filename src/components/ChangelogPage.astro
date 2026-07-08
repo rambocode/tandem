@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import { localizePath } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import type { ChangelogDoc } from '../i18n/changelog';
+
+interface Props {
+  lang: Lang;
+  doc: ChangelogDoc;
+}
+const { lang, doc } = Astro.props;
+const home = localizePath('/', lang);
+const path = '/changelog/';
+---
+
+<Base lang={lang} path={path} title={`${doc.title} — Tandem`} description={doc.metaDescription}>
+  <Header lang={lang} />
+  <main class="changelog">
+    <div class="container changelog-inner">
+      <h1>{doc.title}</h1>
+
+      <ol class="changelog-list">
+        {
+          doc.entries.map((entry) => (
+            <li class="changelog-entry">
+              <div class="changelog-meta">
+                <span class="changelog-version">{entry.version}</span>
+                <span class="changelog-date">{entry.date}</span>
+              </div>
+              <ul>
+                {entry.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ol>
+
+      <p class="changelog-back"><a href={home}>{doc.backHome}</a></p>
+    </div>
+  </main>
+  <Footer lang={lang} />
+</Base>
+
+<style>
+  .changelog {
+    padding-block: 56px 72px;
+  }
+  .changelog-inner {
+    max-width: 760px;
+  }
+  .changelog h1 {
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-1);
+  }
+  .changelog-list {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .changelog-entry {
+    padding-top: 28px;
+    border-top: 1px solid var(--sep);
+  }
+  .changelog-entry:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+  .changelog-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .changelog-version {
+    font-family: var(--font-round);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-1);
+  }
+  .changelog-date {
+    color: var(--text-3);
+    font-size: 0.86rem;
+  }
+  .changelog-entry ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 1.2em;
+  }
+  .changelog-entry li {
+    color: var(--text-2);
+    line-height: 1.7;
+    list-style: disc;
+  }
+  .changelog-back {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--sep);
+    font-weight: 600;
+  }
+  .changelog-back a {
+    color: var(--brand-1);
+  }
+  .changelog-back a:hover {
+    text-decoration: underline;
+  }
+</style>

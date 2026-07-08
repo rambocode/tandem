@@ -5,7 +5,9 @@
 export const SITE = {
   name: 'Tandem',
   domain: 'https://tandem-clip.com', // 自定义域名（Custom Domain）；站点位于根路径（见 public/CNAME）
-  versionLine: 'Tandem 1.0',
+  // 当前 macOS 客户端最新版本号，与 changelog.ts 最新条目的 version 保持一致；
+  // 每次发布新版本时同步更新（见 .claude/skills/release-web/SKILL.md）。
+  versionLine: 'Tandem 0.1.8',
 } as const;
 
 export const LINKS = {
