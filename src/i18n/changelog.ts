@@ -27,6 +27,14 @@ export const changelog: Record<Lang, ChangelogDoc> = {
     backHome: '← Back to home',
     entries: [
       {
+        version: '0.1.9',
+        date: '2026-07-08',
+        items: [
+          "Window screenshots can now capture Tandem's own visible windows (e.g. the clipboard panel), which were previously unselectable",
+          "Clipboard cards gained a two-step delete confirmation and a \"Show in Finder\" button for saved images",
+        ],
+      },
+      {
         version: '0.1.8',
         date: '2026-07-08',
         items: [
@@ -62,6 +70,14 @@ export const changelog: Record<Lang, ChangelogDoc> = {
     backHome: '← 返回首页',
     entries: [
       {
+        version: '0.1.9',
+        date: '2026-07-08',
+        items: [
+          '窗口截图现在可以选取 Tandem 自身的可见窗口（如剪贴板面板），此前无法选中',
+          '剪贴板卡片新增两段式删除确认，以及已落盘图片的「在 Finder 中显示」按钮',
+        ],
+      },
+      {
         version: '0.1.8',
         date: '2026-07-08',
         items: [
@@ -96,6 +112,14 @@ export const changelog: Record<Lang, ChangelogDoc> = {
     metaDescription: 'Tandem macOS 版のリリース履歴。',
     backHome: '← ホームに戻る',
     entries: [
+      {
+        version: '0.1.9',
+        date: '2026-07-08',
+        items: [
+          'ウィンドウスクリーンショットで、これまで選択できなかった Tandem 自身の表示ウィンドウ（クリップボードパネルなど）も選択可能に',
+          'クリップボードカードに二段階の削除確認と、保存済み画像用の「Finder で表示」ボタンを追加',
+        ],
+      },
       {
         version: '0.1.8',
         date: '2026-07-08',
