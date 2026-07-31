@@ -1,0 +1,11 @@
+# appcast.xml 是 Sparkle 的签名产物，不是普通文本：
+# 文件末尾的 `<!-- sparkle-signatures: edSignature: ... -->` 是对**整个文件**的 EdDSA 签名，
+# enclosure 上的 sparkle:edSignature 则是对 DMG 的签名。逐行三方合并对它没有任何意义 ——
+# 合并失败（冲突）反而是安全的，真正危险的是 git 自动合并「成功」：
+# 产出的 feed 内容与签名对不上，客户端 SURequireSignedFeed 会全线拒绝，
+# 且没有任何构建期报错，直到用户报「更新不了」才会发现。
+#
+# 因此禁用自动合并：一旦冲突，必须用 generate_appcast 重新产出**整个文件**，绝不手工拼接。
+# 正常流程下本文件只由发布流程经 GitHub Contents API 写入远端（见 scripts/publish-appcast.sh），
+# 本地 clone 对它只读，不会产生冲突。
+appcast.xml -diff -merge
