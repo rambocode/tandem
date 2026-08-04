@@ -27,6 +27,29 @@ export const changelog: Record<Lang, ChangelogDoc> = {
     backHome: '← Back to home',
     entries: [
       {
+        version: '0.2.10',
+        date: '2026-08-04',
+        items: [
+          'Slimmer menu bar menu — the capture group shows the four most-used items, with the rest tucked behind “Show More”, which expands in place without closing the menu',
+          '“Launch at login”, “Check for Updates” and “Keyboard Shortcuts” left the menu; all three remain available in Preferences',
+          'Area and window capture can now shoot Tandem’s own menus, and default to live mode',
+          'A single click in the large history preview now selects and copies the item',
+          'Screen recording permission is checked once at launch, and the permission walkthrough was redesigned',
+          'Fixed the menu collapsing and the frozen backdrop failing to render when starting an area capture from the menu bar',
+        ],
+      },
+      {
+        version: '0.2.9',
+        date: '2026-08-03',
+        items: [
+          'New history window — browse the full clipboard history as cards',
+          'Dedicated card layouts for images, plain text, links, code and files, with text shown in full inline',
+          'Quick actions appear on a card as you hover it; a single click selects, a double click runs the default action',
+          'Preferences rebuilt on the native macOS Settings scene, with the category tabs in the title bar',
+          'Fixed text fields losing their normal editing behaviour',
+        ],
+      },
+      {
         version: '0.2.8',
         date: '2026-07-31',
         items: [
@@ -159,6 +182,29 @@ export const changelog: Record<Lang, ChangelogDoc> = {
     backHome: '← 返回首页',
     entries: [
       {
+        version: '0.2.10',
+        date: '2026-08-04',
+        items: [
+          '菜单栏菜单精简：截图组默认只显示 4 个最常用的项，其余折叠在「显示更多」后，点击原地展开且菜单不关闭',
+          '「开机自启动」「检查更新」「键盘快捷键」从菜单移出，三者在偏好设置里仍可使用',
+          '区域截图与窗口截图现在可以截到 Tandem 自己的菜单，并默认使用实时模式',
+          '历史大预览中单击即选中并复制',
+          '屏幕录制权限改为启动时检查一次，权限引导重新设计',
+          '修复从菜单栏发起区域截图时菜单被收起、冻结背景不渲染的问题',
+        ],
+      },
+      {
+        version: '0.2.9',
+        date: '2026-08-03',
+        items: [
+          '新增历史记录窗口，可用卡片形式浏览完整的剪贴板历史',
+          '图片、纯文本、链接、代码、文件各有专属卡片样式，文本内容直接完整展示',
+          '悬停卡片即显示快捷操作，单击选中、双击执行默认动作',
+          '偏好设置改用 macOS 原生 Settings 场景，分类标签移到标题栏',
+          '修复文本输入框的正常编辑行为被破坏',
+        ],
+      },
+      {
         version: '0.2.8',
         date: '2026-07-31',
         items: [
@@ -290,6 +336,29 @@ export const changelog: Record<Lang, ChangelogDoc> = {
     metaDescription: 'Tandem macOS 版のリリース履歴。',
     backHome: '← ホームに戻る',
     entries: [
+      {
+        version: '0.2.10',
+        date: '2026-08-04',
+        items: [
+          'メニューバーのメニューを整理：キャプチャ項目は使用頻度の高い 4 つのみを表示し、残りは「さらに表示」に折りたたみ。クリックするとメニューを閉じずにその場で展開',
+          '「ログイン時に起動」「アップデートを確認」「キーボードショートカット」をメニューから削除（いずれも環境設定から引き続き利用可能）',
+          '範囲キャプチャとウィンドウキャプチャで Tandem 自身のメニューも撮影できるようになり、既定でライブモードに',
+          '履歴の大きいプレビューでシングルクリックすると選択と同時にコピーされるように',
+          '画面収録の権限を起動時に一度だけ確認するように変更し、権限の案内画面を刷新',
+          'メニューバーから範囲キャプチャを開始するとメニューが閉じる、静止背景が描画されない問題を修正',
+        ],
+      },
+      {
+        version: '0.2.9',
+        date: '2026-08-03',
+        items: [
+          'クリップボード履歴をカード形式で一覧できる履歴ウィンドウを追加',
+          '画像・テキスト・リンク・コード・ファイルそれぞれに専用のカード表示を用意し、テキストは全文をその場で表示',
+          'カードにホバーするとクイック操作を表示。シングルクリックで選択、ダブルクリックで既定の動作を実行',
+          '環境設定を macOS ネイティブの Settings シーンで再構築し、カテゴリタブをタイトルバーへ移動',
+          'テキスト入力欄の通常の編集動作が損なわれる問題を修正',
+        ],
+      },
       {
         version: '0.2.8',
         date: '2026-07-31',
