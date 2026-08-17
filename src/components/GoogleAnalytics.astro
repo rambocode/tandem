@@ -1,14 +1,4 @@
 ---
-import { analytics } from '../i18n/analytics';
-import { localizePath } from '../i18n/utils';
-import type { Lang } from '../i18n/ui';
-
-interface Props {
-  lang: Lang;
-}
-
-const { lang } = Astro.props;
-const copy = analytics[lang];
 const rawMeasurementId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID?.trim();
 const measurementId = rawMeasurementId?.toUpperCase();
 const enabled = Boolean(measurementId);
@@ -17,244 +7,45 @@ const enabled = Boolean(measurementId);
 if (measurementId && !/^G-[A-Z0-9]{4,}$/.test(measurementId)) {
   throw new Error('PUBLIC_GOOGLE_ANALYTICS_ID must be a valid GA4 Measurement ID such as G-XXXXXXXXXX.');
 }
-
-const privacyHref = localizePath('/privacy/', lang);
 ---
 
 {
   enabled && (
     <>
-      <section
-        class="analytics-consent"
-        data-analytics-consent
-        role="dialog"
-        aria-labelledby="analytics-consent-title"
-        aria-describedby="analytics-consent-description"
-        hidden
-      >
-        <div class="analytics-copy">
-          <h2 id="analytics-consent-title">{copy.title}</h2>
-          <p id="analytics-consent-description">
-            {copy.description} <a href={privacyHref}>{copy.privacyLink}</a>
-          </p>
-        </div>
-        <div class="analytics-actions">
-          <button type="button" class="analytics-reject" data-analytics-reject>{copy.reject}</button>
-          <button type="button" class="analytics-accept" data-analytics-accept>{copy.accept}</button>
-        </div>
-      </section>
-
+      {/* Google tag 按官方顺序全站直接加载，不展示站内授权弹窗。 */}
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}></script>
       <script is:inline define:vars={{ measurementId }}>
-        (() => {
-          const storageKey = 'tandem.analytics-consent.v1';
-          const banner = document.querySelector('[data-analytics-consent]');
-          const acceptButton = banner?.querySelector('[data-analytics-accept]');
-          const rejectButton = banner?.querySelector('[data-analytics-reject]');
-          const settingsButtons = document.querySelectorAll('[data-analytics-settings]');
-          const disableKey = `ga-disable-${measurementId}`;
-          let analyticsLoaded = false;
-          let conversionTrackingInstalled = false;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function gtag() { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', measurementId);
 
-          /** localStorage 在隐私模式或存储被禁用时可能抛错，因此授权流程必须可降级。 */
-          const readConsent = () => {
-            try {
-              return window.localStorage.getItem(storageKey);
-            } catch {
-              return null;
-            }
-          };
+        /** 只统计官网的关键转化入口，避免把普通站内导航变成冗余自定义事件。 */
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+          if (!(target instanceof Element)) return;
 
-          const saveConsent = (choice) => {
-            try {
-              window.localStorage.setItem(storageKey, choice);
-            } catch {
-              // 无法持久化时只对当前页面生效；下次访问会再次询问。
-            }
-          };
+          const link = target.closest('a[href]');
+          if (!(link instanceof HTMLAnchorElement)) return;
 
-          const showBanner = () => {
-            if (banner) banner.hidden = false;
-          };
-
-          const hideBanner = () => {
-            if (banner) banner.hidden = true;
-          };
-
-          /** 只统计官网的关键转化入口，避免把普通站内导航变成冗余自定义事件。 */
-          const installConversionTracking = () => {
-            if (conversionTrackingInstalled) return;
-            conversionTrackingInstalled = true;
-
-            document.addEventListener('click', (event) => {
-              const target = event.target;
-              if (!(target instanceof Element)) return;
-
-              const link = target.closest('a[href]');
-              if (!(link instanceof HTMLAnchorElement) || typeof window.gtag !== 'function') return;
-
-              const url = new URL(link.href, window.location.href);
-              let eventName = null;
-              if (url.hostname === 'github.com' && url.pathname.includes('/rambocode/tandem/releases')) {
-                eventName = 'mac_download_click';
-              } else if (url.hostname === 'apps.apple.com') {
-                eventName = 'ios_app_store_click';
-              } else if (url.pathname.endsWith('/rss.xml')) {
-                eventName = 'rss_subscribe';
-              }
-
-              if (eventName) {
-                window.gtag('event', eventName, {
-                  link_url: url.href,
-                  transport_type: 'beacon',
-                });
-              }
-            });
-          };
-
-          /** 授权前不下载 gtag.js，确保拒绝统计时不会向 Google 发出统计请求。 */
-          const loadAnalytics = () => {
-            window[disableKey] = false;
-            if (analyticsLoaded) {
-              // 同一页面内撤回后再次允许时恢复发送，并重新记录当前页面。
-              window.gtag?.('config', measurementId);
-              return;
-            }
-
-            analyticsLoaded = true;
-            window.dataLayer = window.dataLayer || [];
-            window.gtag = window.gtag || function gtag() { window.dataLayer.push(arguments); };
-            window.gtag('js', new Date());
-            window.gtag('config', measurementId);
-            installConversionTracking();
-
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
-            script.dataset.tandemAnalytics = 'true';
-            document.head.append(script);
-          };
-
-          /** 撤回授权后立即停止后续命中，并尽力移除当前域名下的 GA 第一方 Cookie。 */
-          const disableAnalytics = () => {
-            window[disableKey] = true;
-            document.cookie.split(';').forEach((entry) => {
-              const name = entry.split('=')[0]?.trim();
-              if (!name?.startsWith('_ga')) return;
-
-              const expires = `${name}=; Max-Age=0; path=/; SameSite=Lax`;
-              document.cookie = expires;
-              document.cookie = `${expires}; domain=${window.location.hostname}`;
-              document.cookie = `${expires}; domain=.${window.location.hostname}`;
-            });
-          };
-
-          acceptButton?.addEventListener('click', () => {
-            saveConsent('granted');
-            hideBanner();
-            loadAnalytics();
-          });
-
-          rejectButton?.addEventListener('click', () => {
-            saveConsent('denied');
-            hideBanner();
-            disableAnalytics();
-          });
-
-          settingsButtons.forEach((button) => {
-            button.hidden = false;
-            button.addEventListener('click', showBanner);
-          });
-
-          const storedConsent = readConsent();
-          if (storedConsent === 'granted') {
-            loadAnalytics();
-          } else {
-            window[disableKey] = true;
-            if (storedConsent !== 'denied') showBanner();
+          const url = new URL(link.href, window.location.href);
+          let eventName = null;
+          if (url.hostname === 'github.com' && url.pathname.includes('/rambocode/tandem/releases')) {
+            eventName = 'mac_download_click';
+          } else if (url.hostname === 'apps.apple.com') {
+            eventName = 'ios_app_store_click';
+          } else if (url.pathname.endsWith('/rss.xml')) {
+            eventName = 'rss_subscribe';
           }
-        })();
+
+          if (eventName) {
+            window.gtag('event', eventName, {
+              link_url: url.href,
+              transport_type: 'beacon',
+            });
+          }
+        });
       </script>
     </>
   )
 }
-
-<style>
-  .analytics-consent {
-    position: fixed;
-    z-index: 1000;
-    right: max(18px, env(safe-area-inset-right));
-    bottom: max(18px, env(safe-area-inset-bottom));
-    left: max(18px, env(safe-area-inset-left));
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 24px;
-    max-width: 920px;
-    margin-inline: auto;
-    padding: 18px 20px;
-    border: 1px solid var(--sep-strong);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 24px 70px rgba(42, 35, 86, 0.18);
-    backdrop-filter: blur(20px);
-  }
-  .analytics-consent[hidden] {
-    display: none;
-  }
-  .analytics-copy h2 {
-    font-size: 1rem;
-  }
-  .analytics-copy p {
-    margin-top: 5px;
-    max-width: 68ch;
-    color: var(--text-2);
-    font-size: 0.86rem;
-    line-height: 1.55;
-  }
-  .analytics-copy a {
-    color: var(--brand-1);
-    font-weight: 650;
-  }
-  .analytics-copy a:hover {
-    text-decoration: underline;
-  }
-  .analytics-actions {
-    display: flex;
-    gap: 8px;
-  }
-  .analytics-actions button {
-    min-height: 40px;
-    padding: 8px 14px;
-    border: 1px solid var(--sep-strong);
-    border-radius: 10px;
-    font: 700 0.84rem/1 var(--font-round);
-    cursor: pointer;
-  }
-  .analytics-reject {
-    color: var(--text-2);
-    background: var(--surface);
-  }
-  .analytics-accept {
-    color: #fff;
-    border-color: transparent !important;
-    background: var(--brand-grad);
-  }
-  .analytics-actions button:focus-visible,
-  .analytics-copy a:focus-visible {
-    outline: 3px solid rgba(109, 91, 255, 0.28);
-    outline-offset: 2px;
-  }
-  @media (max-width: 680px) {
-    .analytics-consent {
-      grid-template-columns: 1fr;
-      gap: 14px;
-      padding: 16px;
-    }
-    .analytics-actions {
-      width: 100%;
-    }
-    .analytics-actions button {
-      flex: 1;
-    }
-  }
-</style>

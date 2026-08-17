@@ -1,7 +1,7 @@
 /**
  * 法律页面文案（隐私政策）。三语（en / zh / ja），结构与 ui.ts 对齐。
  * 内容如实区分 Tandem App 与产品官网的数据实践：App 无账号、无云端、无服务器，
- * 内容仅在用户自己的配对设备之间传输；官网仅在访客同意后启用 Google Analytics。
+ * 内容仅在用户自己的配对设备之间传输；官网使用 Google Analytics 统计页面与转化。
  */
 import type { Lang } from './ui';
 
@@ -78,8 +78,8 @@ export const privacy: Record<Lang, LegalDoc> = {
       {
         h: 'Website analytics',
         p: [
-          'This website uses Google Analytics only after you choose “Allow analytics.” Google may then process page URLs, approximate location, browser and device information, and first-party identifiers so we can understand aggregate visits and download actions. Clipboard content, transferred files and Tandem App history are never included.',
-          'You can reject analytics or change your choice later through “Analytics settings” in the website footer. Rejecting analytics does not affect any website or app feature. The Tandem apps themselves do not contain Google Analytics.',
+          'This website loads Google Analytics when you open a page. Google may process page URLs, approximate location, browser and device information, and first-party identifiers so we can understand aggregate visits and download actions. Clipboard content, transferred files and Tandem App history are never included.',
+          'You can limit analytics through your browser cookie settings or a content blocker without affecting website or app features. The Tandem apps themselves do not contain Google Analytics.',
         ],
       },
       {
@@ -91,7 +91,7 @@ export const privacy: Record<Lang, LegalDoc> = {
       {
         h: 'Data retention and deletion',
         p: [
-          'Because we hold none of your Tandem App content, there is no clipboard or file content for us to retain or delete on a server. App data stays on your devices; uninstalling the app removes it. Website analytics data, when you allow it, is processed by Google under the retention settings of our Google Analytics property.',
+          'Because we hold none of your Tandem App content, there is no clipboard or file content for us to retain or delete on a server. App data stays on your devices; uninstalling the app removes it. Website analytics data is processed by Google under the retention settings of our Google Analytics property.',
         ],
       },
       {
@@ -152,8 +152,8 @@ export const privacy: Record<Lang, LegalDoc> = {
       {
         h: '官网访问统计',
         p: [
-          '仅当你选择“允许统计”后，本官网才会加载 Google Analytics。Google 可能处理页面 URL、大致位置、浏览器与设备信息以及第一方标识符，帮助我们了解汇总访问量和下载操作；剪贴板内容、传输文件与 Tandem App 历史记录绝不会包含在内。',
-          '你可以拒绝统计，也可以通过官网页脚的“统计设置”随时更改选择。拒绝不会影响任何官网或 App 功能；Tandem App 本身不包含 Google Analytics。',
+          '打开官网页面时，网站会加载 Google Analytics。Google 可能处理页面 URL、大致位置、浏览器与设备信息以及第一方标识符，帮助我们了解汇总访问量和下载操作；剪贴板内容、传输文件与 Tandem App 历史记录绝不会包含在内。',
+          '你可以通过浏览器 Cookie 设置或内容拦截工具限制统计，这不会影响官网或 App 功能；Tandem App 本身不包含 Google Analytics。',
         ],
       },
       {
@@ -163,7 +163,7 @@ export const privacy: Record<Lang, LegalDoc> = {
       {
         h: '数据留存与删除',
         p: [
-          '由于我们不持有 Tandem App 中的任何内容，服务器上没有需要我们留存或删除的剪贴板或文件内容。App 数据都保存在你的设备上，卸载应用即随之删除；当你允许官网统计时，访问统计数据由 Google 按我们在 Google Analytics 媒体资源中配置的留存设置处理。',
+          '由于我们不持有 Tandem App 中的任何内容，服务器上没有需要我们留存或删除的剪贴板或文件内容。App 数据都保存在你的设备上，卸载应用即随之删除；官网访问统计数据由 Google 按我们在 Google Analytics 媒体资源中配置的留存设置处理。',
         ],
       },
       {
@@ -222,8 +222,8 @@ export const privacy: Record<Lang, LegalDoc> = {
       {
         h: 'ウェブサイトのアクセス解析',
         p: [
-          'このウェブサイトは、「解析を許可」を選択した場合のみ Google Analytics を読み込みます。Google は集計された訪問数とダウンロード操作を把握するため、ページ URL、おおよその位置、ブラウザとデバイスの情報、ファーストパーティ識別子を処理する場合があります。クリップボードの内容、転送ファイル、Tandem アプリの履歴は一切含まれません。',
-          '解析を拒否することも、ウェブサイトのフッターにある「解析設定」から後で選択を変更することもできます。拒否してもウェブサイトやアプリの機能には影響しません。Tandem アプリ自体に Google Analytics は含まれません。',
+          'ウェブサイトのページを開くと Google Analytics が読み込まれます。Google は集計された訪問数とダウンロード操作を把握するため、ページ URL、おおよその位置、ブラウザとデバイスの情報、ファーストパーティ識別子を処理する場合があります。クリップボードの内容、転送ファイル、Tandem アプリの履歴は一切含まれません。',
+          'ブラウザの Cookie 設定やコンテンツブロッカーで解析を制限できます。制限してもウェブサイトやアプリの機能には影響しません。Tandem アプリ自体に Google Analytics は含まれません。',
         ],
       },
       {
@@ -233,7 +233,7 @@ export const privacy: Record<Lang, LegalDoc> = {
       {
         h: 'データの保持と削除',
         p: [
-          '当方は Tandem アプリ内の内容を一切保持しないため、サーバー上に保持・削除すべきクリップボードやファイルの内容はありません。アプリのデータはデバイス内にとどまり、アプリを削除すれば消去されます。ウェブサイトの解析を許可した場合、アクセス解析データは Google Analytics プロパティの保持設定に従って Google が処理します。',
+          '当方は Tandem アプリ内の内容を一切保持しないため、サーバー上に保持・削除すべきクリップボードやファイルの内容はありません。アプリのデータはデバイス内にとどまり、アプリを削除すれば消去されます。ウェブサイトのアクセス解析データは Google Analytics プロパティの保持設定に従って Google が処理します。',
         ],
       },
       {

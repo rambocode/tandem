@@ -3,7 +3,6 @@ import Logo from './Logo.astro';
 import { localizePath } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 import { promotion } from '../i18n/promotion';
-import { analytics } from '../i18n/analytics';
 import { LINKS, SITE } from '../config';
 
 interface Props {
@@ -11,7 +10,6 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = promotion[lang];
-const analyticsCopy = analytics[lang];
 const home = localizePath('/', lang);
 const linkGroups = [
   [`${home}#toolkit`, `${home}#pro`, localizePath('/changelog/', lang), localizePath('/blog/', lang), LINKS.macDownload],
@@ -41,10 +39,7 @@ const year = 2026; // Date.now() 在构建沙箱不可用，固定当前年份
   </div>
   <div class="container ft-bottom">
     <span>© {year} {SITE.name} · {t.footer.closing}</span>
-    <div class="ft-meta">
-      <button type="button" class="ft-analytics" data-analytics-settings hidden>{analyticsCopy.settings}</button>
-      <a class="ft-version" href={changelogHref}>{SITE.versionLine}</a>
-    </div>
+    <a class="ft-version" href={changelogHref}>{SITE.versionLine}</a>
   </div>
 </footer>
 
@@ -99,22 +94,6 @@ const year = 2026; // Date.now() 在构建沙箱不可用，固定当前年份
   .ft-version {
     font-family: var(--font-round);
     color: inherit;
-  }
-  .ft-meta {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .ft-analytics {
-    padding: 0;
-    border: 0;
-    color: inherit;
-    background: transparent;
-    font: inherit;
-    cursor: pointer;
-  }
-  .ft-analytics:hover {
-    color: var(--text-1);
   }
   .ft-version:hover {
     color: var(--text-1);
