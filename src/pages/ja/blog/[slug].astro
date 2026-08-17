@@ -1,0 +1,16 @@
+---
+import { render } from 'astro:content';
+import BlogPost from '../../../components/BlogPost.astro';
+import { type BlogPost as BlogPostEntry, getAllBlogPosts } from '../../../lib/blog';
+
+export async function getStaticPaths() {
+  const posts = (await getAllBlogPosts()).filter(({ data }) => data.lang === 'ja' && !data.draft);
+  return posts.map((post) => ({ params: { slug: post.data.permalink }, props: { post } }));
+}
+
+interface Props { post: BlogPostEntry }
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+---
+
+<BlogPost lang="ja" post={post} headings={headings}><Content /></BlogPost>

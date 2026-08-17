@@ -1,26 +1,29 @@
 ---
-import { useTranslations } from '../i18n/utils';
+import { promotion } from '../i18n/promotion';
 import type { Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
-const t = useTranslations(lang);
+const t = promotion[lang];
 ---
 
 <section id="faq" class="section">
-  <div class="container faq-wrap">
-    <h2 class="section-title faq-title">{t.faq.heading}</h2>
+  <div class="container">
+    <header class="faq-head">
+      <h2 class="section-title faq-title">{t.faq.heading}</h2>
+      <p class="section-lead">{t.faq.lead}</p>
+    </header>
     <div class="faq-list">
       {
-        t.faq.items.map((item) => (
-          <details class="faq card">
+        t.faq.items.map((item, index) => (
+          <details class="faq" open={index === 0}>
             <summary>
-              <span>{item.q}</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+              <span class="faq-icon" aria-hidden="true"></span>
+              <span>{item.question}</span>
             </summary>
-            <p>{item.a}</p>
+            <p>{item.answer}</p>
           </details>
         ))
       }
@@ -29,34 +32,29 @@ const t = useTranslations(lang);
 </section>
 
 <style>
-  .faq-wrap {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: clamp(24px, 6vw, 72px);
-    max-width: var(--maxw);
-  }
+  .faq-head { max-width: 720px; }
   .faq-title {
     text-align: left;
-    margin-bottom: clamp(28px, 4vw, 44px);
+    margin-top: 0;
   }
   .faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    border-top: 1px solid var(--sep);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(44px, 7vw, 92px);
+    margin-top: 48px;
   }
   .faq {
     padding: 0;
-    border: none;
-    border-radius: 0;
-    background: transparent;
+    min-width: 0;
+    border: 0;
     border-bottom: 1px solid var(--sep);
   }
   .faq summary {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 16px;
+    min-height: 70px;
     padding: 18px 0;
     cursor: pointer;
     font-weight: 600;
@@ -66,32 +64,41 @@ const t = useTranslations(lang);
   .faq summary::-webkit-details-marker {
     display: none;
   }
-  .faq summary svg {
+  .faq-icon {
+    position: relative;
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    fill: none;
-    stroke: var(--text-3);
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--text-3);
+    border-radius: 50%;
+    color: var(--text-2);
+  }
+  .faq-icon::before,
+  .faq-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 1px;
+    background: currentColor;
+    transform: translate(-50%, -50%);
     transition: transform 0.2s ease;
   }
-  .faq[open] summary svg {
-    transform: rotate(180deg);
+  .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+  .faq[open] .faq-icon {
+    border-color: var(--brand-1);
+    color: var(--brand-1);
+  }
+  .faq[open] .faq-icon::after {
+    transform: translate(-50%, -50%) rotate(0deg);
   }
   .faq p {
-    padding: 0 0 20px;
+    padding: 0 0 24px 44px;
     color: var(--text-2);
     font-size: 0.96rem;
   }
   @media (max-width: 720px) {
-    .faq-wrap {
-      grid-template-columns: 1fr;
-      gap: 6px;
-    }
-    .faq-title {
-      margin-bottom: 18px;
-    }
+    .faq-list { grid-template-columns: 1fr; }
   }
 </style>

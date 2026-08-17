@@ -31,6 +31,9 @@ jobs:
         run: npm ci
       - name: 构建（base=/tandem）
         run: npm run build
+        # GA4 Measurement ID 会公开嵌入客户端 HTML，不属于密钥；显式固定可保证 Pages 构建可复现。
+        env:
+          PUBLIC_GOOGLE_ANALYTICS_ID: G-YSS3Q4T1PJ
       - name: 上传 Pages 制品
         uses: actions/upload-pages-artifact@v3
         with:

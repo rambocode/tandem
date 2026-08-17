@@ -1,0 +1,76 @@
+---
+import type { Lang } from '../i18n/ui';
+import { blogStrings } from '../i18n/blog';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = blogStrings[lang].discussion;
+// Utterances 需要仓库先安装 GitHub App。默认关闭可避免授权前在线页面出现第三方错误框；
+// 完成授权后在部署环境设置 PUBLIC_UTTERANCES_ENABLED=true 即可开放真实评论。
+const enabled = import.meta.env.PUBLIC_UTTERANCES_ENABLED === 'true';
+const utterancesLoader = `
+  (() => {
+    const host = document.currentScript?.parentElement;
+    if (!host) return;
+    const script = document.createElement('script');
+    script.src = 'https://utteranc.es/client.js';
+    script.setAttribute('repo', 'rambocode/tandem');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('label', 'website-comment');
+    script.setAttribute('theme', 'preferred-color-scheme');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    host.appendChild(script);
+  })();
+`;
+---
+
+<section class="discussion" aria-labelledby="discussion-title">
+  <div class="discussion-copy">
+    <h2 id="discussion-title">{t.title}</h2>
+    <p>{t.description}</p>
+  </div>
+  {
+    enabled ? (
+      <div class="utterances-host">
+        {/* 运行时创建第三方脚本，既保留 utterances 所需的自定义属性，也通过 Astro 类型检查。 */}
+        <script is:inline set:html={utterancesLoader}></script>
+      </div>
+    ) : (
+      <div class="discussion-pending">
+        <span aria-hidden="true">⌁</span>
+        <p>{t.pending}</p>
+        <a href="https://github.com/rambocode/tandem" rel="noreferrer">{t.fallback} →</a>
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .discussion { padding-top: 34px; border-top: 1px solid var(--sep-strong); }
+  .discussion-copy h2 { font-size: clamp(1.35rem, 3vw, 1.7rem); }
+  .discussion-copy p { max-width: 68ch; margin-top: 8px; color: var(--text-2); }
+  .utterances-host { min-height: 190px; margin-top: 22px; }
+  .utterances-host :global(.utterances) { max-width: none; }
+  .discussion-pending {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 14px;
+    margin-top: 22px;
+    padding: 18px 20px;
+    border: 1px solid var(--sep);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--surface) 76%, transparent);
+  }
+  .discussion-pending > span { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(109, 91, 255, 0.1); color: var(--brand-1); font-weight: 800; }
+  .discussion-pending p { color: var(--text-2); font-size: 0.9rem; }
+  .discussion-pending a { color: var(--brand-1); font-weight: 700; font-size: 0.88rem; }
+  @media (max-width: 640px) {
+    .discussion-pending { grid-template-columns: auto 1fr; }
+    .discussion-pending a { grid-column: 2; }
+  }
+</style>

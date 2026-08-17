@@ -79,9 +79,9 @@ export const ui: Record<Lang, Strings> = {
   // ───────────────────────────── English ─────────────────────────────
   en: {
     meta: {
-      title: 'Tandem — LAN clipboard & file transfer for Mac and iPhone',
+      title: 'Tandem — Clipboard, screenshots and capture tools for Mac & iPhone',
       description:
-        'Automatic on Mac, instant on iPhone. Sync your clipboard and files over the local network — end-to-end encrypted, no account, no cloud.',
+        'Sync clipboard content, screenshots and files from Mac to iPhone over an encrypted local connection, with capture, OCR, recording and image editing built in.',
     },
     nav: { features: 'Features', pro: 'Pro', faq: 'FAQ', download: 'Download' },
     hero: {
@@ -173,9 +173,9 @@ export const ui: Record<Lang, Strings> = {
   // ───────────────────────────── 简体中文 ─────────────────────────────
   zh: {
     meta: {
-      title: 'Tandem — Mac 与 iPhone 的局域网剪贴板与文件传输',
+      title: 'Tandem — Mac 与 iPhone 的剪贴板、截图与录屏工具',
       description:
-        'Mac 自动同步，iPhone 一触即达。在局域网内同步剪贴板与文件，端到端加密，无账号、无云端。',
+        '把 Mac 上的剪贴板、截图与文件通过加密局域网直达 iPhone，并提供截图、OCR、录屏与图片编辑。无账号，无云端。',
     },
     nav: { features: '功能', pro: 'Pro', faq: '常见问题', download: '下载' },
     hero: {
@@ -267,9 +267,9 @@ export const ui: Record<Lang, Strings> = {
   // ───────────────────────────── 日本語 ─────────────────────────────
   ja: {
     meta: {
-      title: 'Tandem — Mac と iPhone のための LAN クリップボードとファイル転送',
+      title: 'Tandem — Mac と iPhone のクリップボード、キャプチャ、画面収録',
       description:
-        'Mac で自動同期、iPhone でワンタップ。ローカルネットワークでクリップボードとファイルを同期。エンドツーエンド暗号化、アカウントなし、クラウドなし。',
+        'Mac のクリップボード、スクリーンショット、ファイルを暗号化した LAN で iPhone へ。キャプチャ、OCR、画面収録、画像編集も備えます。',
     },
     nav: { features: '機能', pro: 'Pro', faq: 'よくある質問', download: 'ダウンロード' },
     hero: {

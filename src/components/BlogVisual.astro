@@ -1,0 +1,196 @@
+---
+interface Props {
+  kind: 'capture' | 'history' | 'privacy';
+  compact?: boolean;
+}
+
+const { kind, compact = false } = Astro.props;
+---
+
+<div class:list={['blog-visual', `is-${kind}`, { compact }]} aria-hidden="true">
+  {
+    kind === 'capture' && (
+      <>
+        <div class="capture-window">
+          <div class="window-bar"><i></i><i></i><i></i><span>Roadmap.png</span></div>
+          <div class="capture-canvas">
+            <div class="selection">
+              <span class="chart-label">Q3 product plan</span>
+              <i class="bar b1"></i><i class="bar b2"></i><i class="bar b3"></i>
+            </div>
+          </div>
+          <div class="tool-row"><span>↖</span><span>○</span><span>↗</span><span>T</span></div>
+        </div>
+        <div class="handoff"><span></span><i></i></div>
+        <div class="capture-phone">
+          <b></b>
+          <span class="phone-status">✓</span>
+          <small>From Mac</small>
+          <div class="phone-preview"><i></i><i></i><i></i></div>
+        </div>
+      </>
+    )
+  }
+  {
+    kind === 'history' && (
+      <>
+        <div class="history-pane source">
+          <span class="search">⌕ Search</span>
+          <i><b>T</b><small>Design notes.md</small></i>
+          <i><b>↗</b><small>Release checklist</small></i>
+          <i><b>{'{ }'}</b><small>npm run build</small></i>
+        </div>
+        <div class="history-path">•••</div>
+        <div class="history-pane result">
+          <span class="search">⌕ Design</span>
+          <i><b>T</b><small>Design notes.md</small></i>
+          <i><b>⌘</b><small>Product design</small></i>
+        </div>
+      </>
+    )
+  }
+  {
+    kind === 'privacy' && (
+      <>
+        <div class="device mac-device"><span></span><small>Mac</small></div>
+        <div class="secure-path"><i></i><b>⌁</b><small>E2E encrypted</small></div>
+        <div class="shield">✓</div>
+        <div class="secure-path second"><i></i></div>
+        <div class="device phone-device"><span></span><small>iPhone</small></div>
+      </>
+    )
+  }
+</div>
+
+<style>
+  .blog-visual {
+    position: relative;
+    min-height: 360px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 10%, rgba(109, 91, 255, 0.13), transparent 44%),
+      var(--surface-2);
+    border: 1px solid var(--sep);
+  }
+  .blog-visual.compact { min-height: 188px; }
+  .is-capture {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(24px, 5vw, 68px);
+    padding: 46px 24px 0;
+  }
+  .capture-window {
+    width: min(58%, 390px);
+    border: 1px solid var(--sep-strong);
+    border-radius: 13px 13px 0 0;
+    overflow: hidden;
+    background: #1d1d21;
+    box-shadow: var(--shadow-pop);
+  }
+  .window-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 28px;
+    padding: 0 9px;
+    color: #f6f6f7;
+    font-size: 0.62rem;
+  }
+  .window-bar i { width: 7px; height: 7px; border-radius: 50%; background: #ff665d; }
+  .window-bar i:nth-child(2) { background: #f6bd3f; }
+  .window-bar i:nth-child(3) { background: #30c94b; }
+  .window-bar span { margin-inline: auto; padding-right: 30px; }
+  .capture-canvas { padding: 18px; background: #fff; }
+  .selection {
+    min-height: 150px;
+    padding: 18px;
+    border: 2px dashed #7565ff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 9px;
+  }
+  .chart-label { align-self: flex-start; margin-bottom: auto; color: #25252a; font-size: 0.68rem; font-weight: 700; }
+  .bar { display: block; height: 11px; border-radius: 2px; background: #9b8dff; }
+  .b1 { width: 72%; } .b2 { width: 48%; } .b3 { width: 82%; }
+  .tool-row { display: flex; justify-content: space-around; padding: 8px 20px; color: #fff; font-size: 0.74rem; }
+  .capture-phone {
+    position: relative;
+    width: min(24%, 148px);
+    aspect-ratio: 0.49;
+    padding: 54px 12px 14px;
+    border: 5px solid #151518;
+    border-bottom: 0;
+    border-radius: 30px 30px 0 0;
+    background: #fff;
+    color: #29292e;
+    box-shadow: var(--shadow-pop);
+  }
+  .capture-phone > b { position: absolute; top: 8px; left: 33%; width: 34%; height: 15px; border-radius: 99px; background: #141417; }
+  .phone-status { display: grid; place-items: center; width: 24px; height: 24px; color: var(--green); border: 1.5px solid currentColor; border-radius: 50%; font-size: 0.72rem; }
+  .capture-phone small { display: block; margin-top: 8px; color: #73737b; font-size: 0.58rem; }
+  .phone-preview { margin-top: 12px; padding: 12px 8px; border: 1px solid #e3e3e7; border-radius: 7px; }
+  .phone-preview i { display: block; height: 5px; margin: 5px 0; background: #a397ff; border-radius: 2px; }
+  .phone-preview i:nth-child(2) { width: 58%; }
+  .phone-preview i:nth-child(3) { width: 80%; }
+  .handoff { position: absolute; top: 50px; left: 54%; width: 17%; height: 42px; border: 2px solid #8e80ff; border-bottom: 0; border-radius: 16px 16px 0 0; filter: drop-shadow(0 0 5px rgba(109, 91, 255, 0.5)); }
+  .handoff::before, .handoff::after { content: ''; position: absolute; bottom: -4px; width: 7px; height: 7px; border-radius: 50%; background: #8e80ff; }
+  .handoff::before { left: -4px; } .handoff::after { right: -4px; }
+  .handoff i { position: absolute; top: -3px; left: 48%; width: 5px; height: 5px; background: #fff; transform: rotate(45deg); }
+
+  .compact.is-capture { padding-top: 22px; gap: 24px; }
+  .compact .capture-window { width: 58%; }
+  .compact .capture-canvas { padding: 8px; }
+  .compact .selection { min-height: 72px; padding: 8px; gap: 4px; }
+  .compact .chart-label { font-size: 0.5rem; }
+  .compact .bar { height: 5px; }
+  .compact .tool-row { padding: 4px 10px; }
+  .compact .capture-phone { width: 22%; padding: 37px 7px 8px; border-width: 3px; border-bottom: 0; border-radius: 18px 18px 0 0; }
+  .compact .capture-phone > b { top: 5px; height: 9px; }
+  .compact .phone-status { width: 15px; height: 15px; font-size: 0.48rem; }
+  .compact .phone-preview { margin-top: 5px; padding: 4px; }
+  .compact .capture-phone small, .compact .handoff { display: none; }
+
+  .is-history { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 32px; }
+  .history-pane { width: 42%; max-width: 270px; padding: 12px; border: 1px solid var(--sep-strong); border-radius: 12px; background: color-mix(in srgb, var(--surface) 92%, transparent); box-shadow: var(--shadow-card); }
+  .history-pane.result { transform: translateY(10px); }
+  .search { display: block; margin-bottom: 10px; padding: 7px 9px; border-radius: 7px; background: var(--surface-3); color: var(--text-3); font-size: 0.62rem; }
+  .history-pane i { display: flex; align-items: center; gap: 8px; padding: 8px 3px; border-top: 1px solid var(--sep); font-style: normal; }
+  .history-pane b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; background: rgba(109, 91, 255, 0.12); color: var(--brand-1); font-size: 0.62rem; }
+  .history-pane small { overflow: hidden; color: var(--text-2); font-size: 0.58rem; text-overflow: ellipsis; white-space: nowrap; }
+  .history-path { color: var(--brand-1); letter-spacing: 4px; }
+  .compact.is-history { padding: 18px; gap: 8px; }
+  .compact .history-pane { padding: 7px; }
+  .compact .history-pane i:nth-of-type(3) { display: none; }
+
+  .is-privacy { display: flex; align-items: center; justify-content: center; padding: 38px; }
+  .device { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-2); }
+  .device span { display: block; width: 94px; height: 64px; border: 3px solid #898990; border-radius: 7px; background: var(--surface); box-shadow: var(--shadow-card); }
+  .device small { font-size: 0.68rem; font-weight: 700; }
+  .phone-device span { width: 48px; height: 84px; border-radius: 10px; }
+  .secure-path { position: relative; width: 24%; max-width: 150px; height: 2px; margin-bottom: 20px; background: #66c884; }
+  .secure-path i { position: absolute; inset: -3px auto auto 40%; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+  .secure-path b { position: absolute; top: -36px; left: 42%; color: var(--green); }
+  .secure-path small { position: absolute; top: 16px; left: 10%; width: 130px; color: var(--text-3); font-size: 0.58rem; }
+  .shield { position: relative; z-index: 2; display: grid; place-items: center; width: 48px; height: 54px; margin-bottom: 20px; color: #fff; background: var(--green); clip-path: polygon(50% 0, 94% 18%, 85% 75%, 50% 100%, 15% 75%, 6% 18%); font-weight: 800; }
+  .compact.is-privacy { padding: 20px; }
+  .compact .device span { width: 55px; height: 38px; border-width: 2px; }
+  .compact .phone-device span { width: 28px; height: 50px; }
+  .compact .secure-path small, .compact .device small { display: none; }
+  .compact .shield { width: 32px; height: 36px; margin-bottom: 0; }
+  .compact .secure-path { margin-bottom: 0; }
+
+  @media (max-width: 620px) {
+    .blog-visual { min-height: 270px; }
+    .is-capture { gap: 18px; padding-inline: 12px; }
+    .capture-window { width: 66%; }
+    .capture-phone { width: 26%; }
+    .handoff { display: none; }
+    .selection { min-height: 100px; }
+    .is-history { padding-inline: 14px; }
+    .history-pane { width: 45%; }
+    .is-privacy { padding-inline: 12px; }
+    .secure-path small { display: none; }
+  }
+</style>

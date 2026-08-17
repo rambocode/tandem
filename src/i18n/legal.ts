@@ -1,7 +1,7 @@
 /**
  * 法律页面文案（隐私政策）。三语（en / zh / ja），结构与 ui.ts 对齐。
- * 内容如实反映 Tandem 的数据实践：无账号、无云端、无服务器，内容仅在用户自己的
- * 配对设备之间经局域网端到端加密传输；iOS 端不收集任何数据、无第三方 SDK。
+ * 内容如实区分 Tandem App 与产品官网的数据实践：App 无账号、无云端、无服务器，
+ * 内容仅在用户自己的配对设备之间传输；官网仅在访客同意后启用 Google Analytics。
  */
 import type { Lang } from './ui';
 
@@ -30,7 +30,8 @@ export type PrivacyDoc = LegalDoc;
 
 /** 开发者联系邮箱（用于隐私政策与 App Store 审核）。如需更换支持邮箱，改这一处即可。 */
 export const CONTACT_EMAIL = 'service@tandem-clip.com';
-const UPDATED = '2026-06-17';
+const PRIVACY_UPDATED = '2026-08-17';
+const TERMS_UPDATED = '2026-06-17';
 
 export const privacy: Record<Lang, LegalDoc> = {
   // ───────────────────────────── English ─────────────────────────────
@@ -39,7 +40,7 @@ export const privacy: Record<Lang, LegalDoc> = {
     metaDescription:
       "Tandem's privacy policy. Tandem has no account, no cloud and no servers — your clipboard and files stay on your own devices and travel only over your local network, end-to-end encrypted. The iPhone app collects no data.",
     updatedLabel: 'Last updated',
-    updated: UPDATED,
+    updated: PRIVACY_UPDATED,
     intro: [
       'Tandem ("Tandem", "we", "us") is a clipboard and file-transfer app for Mac and iPhone. This policy explains what data the app handles and how. The short version: Tandem has no user accounts, no cloud and no servers of our own, so we cannot — and do not — collect your content.',
       'The Tandem app for iPhone collects no personal data and contains no analytics, advertising or third-party tracking SDKs.',
@@ -55,7 +56,7 @@ export const privacy: Record<Lang, LegalDoc> = {
         h: 'Information we do not collect',
         list: [
           'No account or sign-up — Tandem does not ask for your name, email or phone number to use the app.',
-          'No analytics or usage tracking, no advertising identifiers, no third-party tracking SDKs.',
+          'The Tandem apps contain no analytics or usage tracking, no advertising identifiers and no third-party tracking SDKs.',
           'No clipboard content, files, or history are uploaded to us or to any cloud service.',
         ],
       },
@@ -75,6 +76,13 @@ export const privacy: Record<Lang, LegalDoc> = {
         ],
       },
       {
+        h: 'Website analytics',
+        p: [
+          'This website uses Google Analytics only after you choose “Allow analytics.” Google may then process page URLs, approximate location, browser and device information, and first-party identifiers so we can understand aggregate visits and download actions. Clipboard content, transferred files and Tandem App history are never included.',
+          'You can reject analytics or change your choice later through “Analytics settings” in the website footer. Rejecting analytics does not affect any website or app feature. The Tandem apps themselves do not contain Google Analytics.',
+        ],
+      },
+      {
         h: "Children's privacy",
         p: [
           'Tandem is not directed to children and does not knowingly collect any personal information from anyone, including children.',
@@ -83,7 +91,7 @@ export const privacy: Record<Lang, LegalDoc> = {
       {
         h: 'Data retention and deletion',
         p: [
-          'Because we hold none of your content, there is nothing for us to retain or delete on a server. All data stays on your devices; uninstalling the app removes it.',
+          'Because we hold none of your Tandem App content, there is no clipboard or file content for us to retain or delete on a server. App data stays on your devices; uninstalling the app removes it. Website analytics data, when you allow it, is processed by Google under the retention settings of our Google Analytics property.',
         ],
       },
       {
@@ -106,7 +114,7 @@ export const privacy: Record<Lang, LegalDoc> = {
     metaDescription:
       'Tandem 隐私政策。Tandem 无账号、无云端、无自有服务器——你的剪贴板与文件仅保存在你自己的设备上，并只在局域网内端到端加密传输。iPhone 应用不收集任何数据。',
     updatedLabel: '最后更新',
-    updated: UPDATED,
+    updated: PRIVACY_UPDATED,
     intro: [
       'Tandem（以下称"Tandem"或"我们"）是一款用于 Mac 与 iPhone 的剪贴板与文件传输应用。本政策说明应用会处理哪些数据、如何处理。简而言之：Tandem 没有用户账号、没有云端、也没有我们自己的服务器，因此我们无法、也不会收集你的内容。',
       'iPhone 版 Tandem 不收集任何个人数据，也不含任何统计分析、广告或第三方追踪 SDK。',
@@ -122,7 +130,7 @@ export const privacy: Record<Lang, LegalDoc> = {
         h: '我们不收集的信息',
         list: [
           '无账号、无注册——使用 Tandem 无需提供姓名、邮箱或手机号。',
-          '无统计分析或使用追踪，无广告标识符，无第三方追踪 SDK。',
+          'Tandem App 不含统计分析或使用追踪，不使用广告标识符，也不含第三方追踪 SDK。',
           '不会将任何剪贴板内容、文件或历史记录上传给我们或任何云服务。',
         ],
       },
@@ -142,13 +150,20 @@ export const privacy: Record<Lang, LegalDoc> = {
         ],
       },
       {
+        h: '官网访问统计',
+        p: [
+          '仅当你选择“允许统计”后，本官网才会加载 Google Analytics。Google 可能处理页面 URL、大致位置、浏览器与设备信息以及第一方标识符，帮助我们了解汇总访问量和下载操作；剪贴板内容、传输文件与 Tandem App 历史记录绝不会包含在内。',
+          '你可以拒绝统计，也可以通过官网页脚的“统计设置”随时更改选择。拒绝不会影响任何官网或 App 功能；Tandem App 本身不包含 Google Analytics。',
+        ],
+      },
+      {
         h: '儿童隐私',
         p: ['Tandem 并非面向儿童，也不会在知情情况下收集任何人（包括儿童）的个人信息。'],
       },
       {
         h: '数据留存与删除',
         p: [
-          '由于我们不持有你的任何内容，服务器上没有需要我们留存或删除的数据。所有数据都保存在你的设备上；卸载应用即随之删除。',
+          '由于我们不持有 Tandem App 中的任何内容，服务器上没有需要我们留存或删除的剪贴板或文件内容。App 数据都保存在你的设备上，卸载应用即随之删除；当你允许官网统计时，访问统计数据由 Google 按我们在 Google Analytics 媒体资源中配置的留存设置处理。',
         ],
       },
       {
@@ -169,7 +184,7 @@ export const privacy: Record<Lang, LegalDoc> = {
     metaDescription:
       'Tandem のプライバシーポリシー。Tandem はアカウントなし・クラウドなし・自社サーバーなし——クリップボードとファイルはご自身のデバイス内にとどまり、ローカルネットワークのみをエンドツーエンド暗号化で移動します。iPhone アプリはデータを一切収集しません。',
     updatedLabel: '最終更新',
-    updated: UPDATED,
+    updated: PRIVACY_UPDATED,
     intro: [
       'Tandem（以下「Tandem」「当方」）は、Mac と iPhone 向けのクリップボード・ファイル転送アプリです。本ポリシーは、アプリが扱うデータとその扱い方を説明します。要点：Tandem にはユーザーアカウント・クラウド・当方のサーバーがありません。したがって、当方があなたの内容を収集することはできず、また収集しません。',
       'iPhone 版 Tandem は個人データを一切収集せず、解析・広告・サードパーティのトラッキング SDK も含みません。',
@@ -185,7 +200,7 @@ export const privacy: Record<Lang, LegalDoc> = {
         h: '収集しない情報',
         list: [
           'アカウント・登録なし——Tandem の利用に氏名・メール・電話番号は不要です。',
-          '解析や利用トラッキングなし、広告識別子なし、サードパーティのトラッキング SDK なし。',
+          'Tandem アプリには解析や利用トラッキング、広告識別子、サードパーティのトラッキング SDK は含まれません。',
           'クリップボードの内容・ファイル・履歴を当方やクラウドにアップロードすることはありません。',
         ],
       },
@@ -205,13 +220,20 @@ export const privacy: Record<Lang, LegalDoc> = {
         ],
       },
       {
+        h: 'ウェブサイトのアクセス解析',
+        p: [
+          'このウェブサイトは、「解析を許可」を選択した場合のみ Google Analytics を読み込みます。Google は集計された訪問数とダウンロード操作を把握するため、ページ URL、おおよその位置、ブラウザとデバイスの情報、ファーストパーティ識別子を処理する場合があります。クリップボードの内容、転送ファイル、Tandem アプリの履歴は一切含まれません。',
+          '解析を拒否することも、ウェブサイトのフッターにある「解析設定」から後で選択を変更することもできます。拒否してもウェブサイトやアプリの機能には影響しません。Tandem アプリ自体に Google Analytics は含まれません。',
+        ],
+      },
+      {
         h: '子どものプライバシー',
         p: ['Tandem は子ども向けではなく、子どもを含むいかなる人物の個人情報も故意に収集することはありません。'],
       },
       {
         h: 'データの保持と削除',
         p: [
-          '当方はあなたの内容を一切保持しないため、サーバー上に保持・削除すべきデータはありません。すべてのデータはあなたのデバイス内にとどまり、アプリを削除すれば消去されます。',
+          '当方は Tandem アプリ内の内容を一切保持しないため、サーバー上に保持・削除すべきクリップボードやファイルの内容はありません。アプリのデータはデバイス内にとどまり、アプリを削除すれば消去されます。ウェブサイトの解析を許可した場合、アクセス解析データは Google Analytics プロパティの保持設定に従って Google が処理します。',
         ],
       },
       {
@@ -233,7 +255,7 @@ export const terms: Record<Lang, LegalDoc> = {
     metaDescription:
       'Terms of Service for Tandem, a local-network clipboard and file-transfer app for Mac and iPhone.',
     updatedLabel: 'Last updated',
-    updated: UPDATED,
+    updated: TERMS_UPDATED,
     intro: [
       'These Terms of Service ("Terms") govern your access to and use of Tandem. By downloading, installing or using Tandem, you agree to these Terms.',
       'If you do not agree to these Terms, do not use Tandem.',
@@ -304,7 +326,7 @@ export const terms: Record<Lang, LegalDoc> = {
     title: '服务条款',
     metaDescription: 'Tandem 服务条款。Tandem 是用于 Mac 与 iPhone 的局域网剪贴板与文件传输应用。',
     updatedLabel: '最后更新',
-    updated: UPDATED,
+    updated: TERMS_UPDATED,
     intro: [
       '本服务条款（以下简称“条款”）适用于你访问和使用 Tandem。下载、安装或使用 Tandem，即表示你同意本条款。',
       '如果你不同意本条款，请不要使用 Tandem。',
@@ -372,7 +394,7 @@ export const terms: Record<Lang, LegalDoc> = {
     metaDescription:
       'Tandem の利用規約。Tandem は Mac と iPhone 向けのローカルネットワーク・クリップボードおよびファイル転送アプリです。',
     updatedLabel: '最終更新',
-    updated: UPDATED,
+    updated: TERMS_UPDATED,
     intro: [
       '本利用規約（以下「本規約」）は、Tandem へのアクセスおよび利用に適用されます。Tandem をダウンロード、インストール、または利用することで、本規約に同意したものとみなされます。',
       '本規約に同意しない場合は、Tandem を利用しないでください。',

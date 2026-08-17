@@ -1,0 +1,188 @@
+---
+import { promotion } from '../i18n/promotion';
+import type { Lang } from '../i18n/ui';
+import ToolkitDemo from './ToolkitDemo.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = promotion[lang];
+---
+
+<section id="toolkit" class="section toolkit" data-toolkit>
+  <div class="container">
+    <header class="toolkit-head">
+      <h2 class="section-title">{t.toolkit.heading}</h2>
+      <p class="section-lead">{t.toolkit.lead}</p>
+    </header>
+
+    <div class="tool-tabs" role="tablist" aria-label={t.toolkit.heading}>
+      {
+        t.toolkit.items.map((item, index) => (
+          <button
+            type="button"
+            role="tab"
+            id={`tool-tab-${item.id}`}
+            aria-controls={`tool-panel-${item.id}`}
+            aria-selected={index === 1 ? 'true' : 'false'}
+            tabindex={index === 1 ? 0 : -1}
+            data-tool-tab={item.id}
+          >
+            {item.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="tool-panels">
+      {
+        t.toolkit.items.map((item, index) => (
+          <article
+            class="tool-panel"
+            id={`tool-panel-${item.id}`}
+            role="tabpanel"
+            aria-labelledby={`tool-tab-${item.id}`}
+            data-tool-panel={item.id}
+            hidden={index !== 1}
+          >
+            <ToolkitDemo id={item.id} visual={t.toolkit.visual} editorNote={t.hero.editorNote} />
+            <div class="tool-copy">
+              <p class="tool-number">0{index + 1} / 05</p>
+              <h3>{item.title}</h3>
+              <p class="tool-description">{item.description}</p>
+              <ul>
+                {item.bullets.map((bullet) => <li><span aria-hidden="true">✓</span>{bullet}</li>)}
+              </ul>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  /**
+   * 标签切换只控制当前组件内的面板，并同步 ARIA 与键盘焦点。
+   * 左右方向键遵循 WAI-ARIA tabs 模式，移动端横向滚动时也保持可操作。
+   */
+  document.querySelectorAll<HTMLElement>('[data-toolkit]').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tool-tab]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-tool-panel]'));
+
+    const activate = (tab: HTMLButtonElement, moveFocus = false) => {
+      const target = tab.dataset.toolTab;
+      tabs.forEach((candidate) => {
+        const selected = candidate === tab;
+        candidate.setAttribute('aria-selected', String(selected));
+        candidate.tabIndex = selected ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.toolPanel !== target;
+      });
+      if (moveFocus) tab.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(tab));
+      tab.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        const direction = event.key === 'ArrowRight' ? 1 : -1;
+        const next = tabs[(index + direction + tabs.length) % tabs.length];
+        if (next) activate(next, true);
+      });
+    });
+  });
+</script>
+
+<style>
+  .toolkit {
+    border-block: 1px solid var(--sep);
+    background: color-mix(in srgb, var(--surface) 46%, transparent);
+  }
+  .toolkit-head { max-width: 760px; }
+  .toolkit-head .section-title { margin-top: 0; }
+  .tool-tabs {
+    display: flex;
+    gap: clamp(24px, 5vw, 64px);
+    margin-top: 48px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--sep-strong);
+    scrollbar-width: none;
+  }
+  .tool-tabs::-webkit-scrollbar { display: none; }
+  .tool-tabs button {
+    position: relative;
+    flex: 0 0 auto;
+    padding: 0 0 15px;
+    border: 0;
+    background: transparent;
+    color: var(--text-3);
+    font: 700 0.95rem var(--font-round);
+    cursor: pointer;
+  }
+  .tool-tabs button::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 3px;
+    background: var(--brand-1);
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+  }
+  .tool-tabs button[aria-selected='true'] { color: var(--text-1); }
+  .tool-tabs button[aria-selected='true']::after { transform: scaleX(1); }
+  .tool-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.55fr);
+    gap: clamp(38px, 6vw, 72px);
+    align-items: center;
+    padding-top: clamp(38px, 5vw, 62px);
+  }
+  .tool-panel[hidden] { display: none; }
+  .tool-copy h3 {
+    margin-top: 12px;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+  }
+  .tool-number {
+    color: var(--brand-1);
+    font: 800 0.82rem var(--font-round);
+    letter-spacing: 0.12em;
+  }
+  .tool-description {
+    margin-top: 18px;
+    color: var(--text-2);
+    font-size: 1.04rem;
+  }
+  .tool-copy ul {
+    display: grid;
+    gap: 13px;
+    margin-top: 28px;
+  }
+  .tool-copy li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 10px;
+    color: var(--text-2);
+    font-size: 0.9rem;
+  }
+  .tool-copy li span {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(109, 91, 255, 0.36);
+    border-radius: 50%;
+    color: var(--brand-1);
+    font-size: 0.7rem;
+  }
+  @media (max-width: 880px) {
+    .tool-panel { grid-template-columns: 1fr; }
+    .tool-copy { max-width: 620px; }
+  }
+</style>

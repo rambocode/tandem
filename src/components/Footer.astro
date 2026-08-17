@@ -1,18 +1,23 @@
 ---
 import Logo from './Logo.astro';
-import { useTranslations, localizePath } from '../i18n/utils';
+import { localizePath } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
-import { SITE } from '../config';
+import { promotion } from '../i18n/promotion';
+import { analytics } from '../i18n/analytics';
+import { LINKS, SITE } from '../config';
 
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
-const t = useTranslations(lang);
-const home = localizePath('/', lang); // 锚点指向首页，子页可正确回跳
-const anchors = [`${home}#features`, `${home}#pro`, `${home}#faq`, localizePath('/compare/', lang)];
-const privacyHref = localizePath('/privacy/', lang);
-const termsHref = localizePath('/terms/', lang);
+const t = promotion[lang];
+const analyticsCopy = analytics[lang];
+const home = localizePath('/', lang);
+const linkGroups = [
+  [`${home}#toolkit`, `${home}#pro`, localizePath('/changelog/', lang), localizePath('/blog/', lang), LINKS.macDownload],
+  [`${home}#faq`, localizePath('/compare/', lang), localizePath('/privacy/', lang), localizePath('/terms/', lang)],
+  [localizePath('/', 'zh'), localizePath('/', 'en'), localizePath('/', 'ja')],
+];
 const changelogHref = localizePath('/changelog/', lang);
 const year = 2026; // Date.now() 在构建沙箱不可用，固定当前年份
 ---
@@ -23,19 +28,23 @@ const year = 2026; // Date.now() 在构建沙箱不可用，固定当前年份
       <Logo size={24} withWordmark />
       <p class="ft-tag">{t.footer.tagline}</p>
     </div>
-    <nav class="ft-nav" aria-label="Footer">
-      <span class="ft-h">{t.footer.product}</span>
-      {t.footer.links.map((label, i) => <a href={anchors[i]}>{label}</a>)}
-    </nav>
+    <div class="ft-groups">
+      {
+        t.footer.groups.map((group, groupIndex) => (
+          <nav class="ft-nav" aria-label={group.title}>
+            <span class="ft-h">{group.title}</span>
+            {group.links.map((label, linkIndex) => <a href={linkGroups[groupIndex]?.[linkIndex] ?? home}>{label}</a>)}
+          </nav>
+        ))
+      }
+    </div>
   </div>
   <div class="container ft-bottom">
-    <span>© {year} {SITE.name}. {t.footer.rights}</span>
-    <span class="ft-legal-links">
-      <a class="ft-legal" href={privacyHref}>{t.footer.privacy}</a>
-      <a class="ft-legal" href={termsHref}>{t.footer.terms}</a>
-      <a class="ft-legal" href={changelogHref}>{t.footer.changelog}</a>
-    </span>
-    <a class="ft-version" href={changelogHref}>{SITE.versionLine}</a>
+    <span>© {year} {SITE.name} · {t.footer.closing}</span>
+    <div class="ft-meta">
+      <button type="button" class="ft-analytics" data-analytics-settings hidden>{analyticsCopy.settings}</button>
+      <a class="ft-version" href={changelogHref}>{SITE.versionLine}</a>
+    </div>
   </div>
 </footer>
 
@@ -46,10 +55,9 @@ const year = 2026; // Date.now() 在构建沙箱不可用，固定当前年份
     padding-block: 44px 28px;
   }
   .ft-inner {
-    display: flex;
-    justify-content: space-between;
-    gap: 32px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1.1fr 1.9fr;
+    gap: clamp(44px, 8vw, 110px);
   }
   .ft-tag {
     margin-top: 12px;
@@ -63,6 +71,11 @@ const year = 2026; // Date.now() 在构建沙箱不可用，固定当前年份
     gap: 9px;
     font-size: 0.92rem;
     color: var(--text-2);
+  }
+  .ft-groups {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(26px, 5vw, 72px);
   }
   .ft-h {
     font-weight: 700;
@@ -83,22 +96,33 @@ const year = 2026; // Date.now() 在构建沙箱不可用，固定当前年份
     font-size: 0.82rem;
     color: var(--text-3);
   }
-  .ft-legal {
-    color: var(--text-3);
-  }
-  .ft-legal:hover {
-    color: var(--text-1);
-  }
-  .ft-legal-links {
-    display: inline-flex;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
   .ft-version {
     font-family: var(--font-round);
     color: inherit;
   }
+  .ft-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .ft-analytics {
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+  }
+  .ft-analytics:hover {
+    color: var(--text-1);
+  }
   .ft-version:hover {
     color: var(--text-1);
+  }
+  @media (max-width: 760px) {
+    .ft-inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .ft-groups { grid-template-columns: repeat(2, 1fr); }
   }
 </style>

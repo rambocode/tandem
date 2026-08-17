@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { useTranslations, localizePath } from '../i18n/utils';
 import { languages, type Lang } from '../i18n/ui';
 import { SITE } from '../config';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 
 interface Props {
   lang: Lang;
@@ -11,9 +12,26 @@ interface Props {
   /** 覆盖默认 meta title / description（子页用）。 */
   title?: string;
   description?: string;
+  /** 页面类型影响社交分享语义；文章页使用 article。 */
+  ogType?: 'website' | 'article';
+  /** 文章发布时间，仅在 ogType=article 时输出。 */
+  publishedTime?: string;
+  /** 页面专属 JSON-LD；未提供时沿用产品应用结构化数据。 */
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  /** 仅输出真实存在的语言版本，避免文章 hreflang 指向 404。 */
+  alternateLangs?: Lang[];
 }
 
-const { lang, path = '/', title, description } = Astro.props;
+const {
+  lang,
+  path = '/',
+  title,
+  description,
+  ogType = 'website',
+  publishedTime,
+  structuredData,
+  alternateLangs,
+} = Astro.props;
 const t = useTranslations(lang);
 const pageTitle = title ?? t.meta.title;
 const pageDesc = description ?? t.meta.description;
@@ -22,10 +40,10 @@ const htmlLang: Record<Lang, string> = { en: 'en', zh: 'zh-Hans', ja: 'ja' };
 const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`; // 规范成带尾斜杠，如 '/tandem/'
 const canonical = new URL(localizePath(path, lang), SITE.domain).href;
 const ogImage = new URL(`${base}og/tandem-og.png`, SITE.domain).href;
-const allLangs = Object.keys(languages) as Lang[];
+const allLangs = alternateLangs ?? (Object.keys(languages) as Lang[]);
 
 // SoftwareApplication 结构化数据（搜索结果富摘要：价格、平台、类别）
-const jsonLd = JSON.stringify({
+const defaultJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: SITE.name,
@@ -37,7 +55,8 @@ const jsonLd = JSON.stringify({
     { '@type': 'Offer', name: 'Tandem Core', price: '0', priceCurrency: 'USD' },
     { '@type': 'Offer', name: 'Tandem Pro (lifetime)', price: '19.99', priceCurrency: 'USD' },
   ],
-});
+};
+const jsonLd = JSON.stringify(structuredData ?? defaultJsonLd);
 ---
 
 <!doctype html>
@@ -48,6 +67,7 @@ const jsonLd = JSON.stringify({
     <title>{pageTitle}</title>
     <meta name="description" content={pageDesc} />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} Blog RSS`} href={localizePath('/rss.xml', lang)} />
 
     {/* hreflang 互链 */}
     {
@@ -62,18 +82,20 @@ const jsonLd = JSON.stringify({
     <link rel="alternate" hreflang="x-default" href={new URL(localizePath(path, 'en'), SITE.domain).href} />
 
     {/* Open Graph / Twitter */}
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDesc} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    {ogType === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime} />}
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="theme-color" content="#6d5bff" />
-    <script type="application/ld+json" set:html={jsonLd} />
+    <script is:inline type="application/ld+json" set:html={jsonLd} />
   </head>
   <body>
     <slot />
+    <GoogleAnalytics lang={lang} />
   </body>
 </html>

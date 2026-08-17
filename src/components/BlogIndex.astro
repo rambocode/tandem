@@ -1,0 +1,134 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import BlogVisual from './BlogVisual.astro';
+import { blogStrings } from '../i18n/blog';
+import type { Lang } from '../i18n/ui';
+import { blogPostPath, formatPostDate, getAllBlogPosts, publishedPosts, rssPath } from '../lib/blog';
+import { SITE } from '../config';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = blogStrings[lang];
+const posts = publishedPosts(await getAllBlogPosts(), lang);
+const featured = posts.find((post) => post.data.featured) ?? posts[0];
+const latest = posts.filter((post) => post.id !== featured?.id);
+const visualKind = (slug: string): 'capture' | 'history' | 'privacy' =>
+  slug.includes('history') ? 'history' : slug.includes('local-first') ? 'privacy' : 'capture';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: t.metaTitle,
+  description: t.metaDescription,
+  url: new URL(lang === 'en' ? '/blog/' : `/${lang}/blog/`, SITE.domain).href,
+  publisher: { '@type': 'Organization', name: SITE.name },
+};
+---
+
+<Base
+  lang={lang}
+  path="/blog/"
+  title={t.metaTitle}
+  description={t.metaDescription}
+  structuredData={structuredData}
+>
+  <Header lang={lang} languagePath="/blog/" />
+  <main class="blog-index">
+    <section class="blog-hero container">
+      <div>
+        <p class="eyebrow">{t.eyebrow}</p>
+        <h1>{t.heading}</h1>
+        <p class="blog-lead">{t.lead}</p>
+        <a class="rss-link" href={rssPath(lang)}>{t.rss} <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    {
+      featured && (
+        <section class="featured container" aria-labelledby="featured-title">
+          <BlogVisual kind={visualKind(featured.data.permalink)} />
+          <div class="featured-copy">
+            <p class="article-category">{t.featured} · {featured.data.category}</p>
+            <h2 id="featured-title"><a href={blogPostPath(featured)}>{featured.data.title}</a></h2>
+            <p>{featured.data.description}</p>
+            <span class="article-meta">{formatPostDate(featured.data.publishedAt, lang)} · {t.minuteRead(featured.data.readingMinutes)}</span>
+            <a class="read-link" href={blogPostPath(featured)}>{t.readArticle} →</a>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      latest.length > 0 && (
+        <section class="latest container" aria-labelledby="latest-title">
+          <div class="latest-head">
+            <h2 id="latest-title">{t.latest}</h2>
+            <span>{t.all} · {posts.length}</span>
+          </div>
+          <ol class="article-list">
+            {latest.map((post, index) => (
+              <li>
+                <span class="article-number">{String(index + 1).padStart(2, '0')}</span>
+                <a class="article-visual-link" href={blogPostPath(post)} aria-label={post.data.title}>
+                  <BlogVisual kind={visualKind(post.data.permalink)} compact />
+                </a>
+                <div class="article-copy">
+                  <p class="article-category">{post.data.category}</p>
+                  <h3><a href={blogPostPath(post)}>{post.data.title}</a></h3>
+                  <p>{post.data.description}</p>
+                  <span class="article-meta">{formatPostDate(post.data.publishedAt, lang)} · {t.minuteRead(post.data.readingMinutes)}</span>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )
+    }
+  </main>
+  <Footer lang={lang} />
+</Base>
+
+<style>
+  .blog-index { padding-bottom: clamp(76px, 10vw, 130px); }
+  .blog-hero { padding-top: clamp(74px, 10vw, 126px); padding-bottom: clamp(52px, 7vw, 84px); }
+  .blog-hero > div { max-width: 760px; }
+  .blog-hero h1 { margin-top: 16px; font-size: clamp(3rem, 7vw, 5.6rem); letter-spacing: -0.045em; white-space: pre-line; }
+  .blog-lead { max-width: 58ch; margin-top: 24px; color: var(--text-2); font-size: clamp(1.02rem, 1.6vw, 1.22rem); }
+  .rss-link { display: inline-flex; gap: 6px; margin-top: 24px; color: var(--brand-1); font-weight: 750; }
+  .rss-link:hover, .read-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .featured { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.8fr); align-items: center; gap: clamp(34px, 6vw, 74px); padding-block: 18px 72px; }
+  .featured :global(.blog-visual) { border-radius: 2px; }
+  .featured-copy h2 { margin-top: 16px; font-size: clamp(2rem, 3.8vw, 3rem); }
+  .featured-copy h2 a:hover, .article-copy h3 a:hover { color: var(--brand-1); }
+  .featured-copy > p:not(.article-category) { margin-top: 18px; color: var(--text-2); font-size: 1.04rem; }
+  .article-category { color: var(--brand-1); font-family: var(--font-round); font-size: 0.8rem; font-weight: 800; }
+  .article-meta { display: block; margin-top: 22px; color: var(--text-3); font-size: 0.82rem; }
+  .read-link { display: inline-block; margin-top: 18px; color: var(--brand-1); font-weight: 750; }
+  .latest { margin-top: 34px; }
+  .latest-head { display: flex; align-items: baseline; justify-content: space-between; padding-block: 24px; border-top: 1px solid var(--sep-strong); border-bottom: 1px solid var(--sep); }
+  .latest-head h2 { font-size: clamp(1.65rem, 3vw, 2.25rem); }
+  .latest-head span { color: var(--text-3); font-size: 0.82rem; }
+  .article-list > li { display: grid; grid-template-columns: 54px minmax(220px, 0.9fr) minmax(300px, 1.1fr); gap: clamp(18px, 4vw, 54px); align-items: center; padding-block: 34px; border-bottom: 1px solid var(--sep); }
+  .article-number { align-self: start; font-family: var(--font-round); font-size: 2rem; font-weight: 800; line-height: 1; }
+  .article-visual-link { overflow: hidden; }
+  .article-copy h3 { margin-top: 11px; font-size: clamp(1.35rem, 2.5vw, 2rem); }
+  .article-copy > p:not(.article-category) { margin-top: 12px; color: var(--text-2); }
+  @media (max-width: 820px) {
+    .featured { grid-template-columns: 1fr; }
+    .featured-copy { max-width: 640px; }
+    .article-list > li { grid-template-columns: 42px 1fr; }
+    .article-visual-link { grid-column: 2; }
+    .article-copy { grid-column: 2; }
+  }
+  @media (max-width: 560px) {
+    .blog-hero h1 { font-size: 2.4rem; }
+    .featured { padding-inline: 0; }
+    .featured-copy { padding-inline: var(--gutter); }
+    .article-list > li { grid-template-columns: 30px 1fr; gap: 14px; }
+    .article-number { font-size: 1.3rem; }
+  }
+</style>

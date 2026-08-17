@@ -1,158 +1,133 @@
 ---
-import { useTranslations } from '../i18n/utils';
+import { promotion } from '../i18n/promotion';
+import { localizePath } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+import { LINKS } from '../config';
 
 interface Props {
   lang: Lang;
 }
-const { lang } = Astro.props;
-const t = useTranslations(lang);
 
-function cell(value: string) {
-  if (value === 'yes') return { type: 'yes' as const };
-  if (value === 'no') return { type: 'no' as const };
-  return { type: 'text' as const, text: value };
-}
+const { lang } = Astro.props;
+const t = promotion[lang];
 ---
 
 <section id="pro" class="section pro-section">
-  <div class="container">
-    <header class="pro-head">
-      <p class="eyebrow">{t.pro.badge}</p>
+  <div class="container pro-grid">
+    <div class="pro-offer">
       <h2 class="section-title">{t.pro.heading}</h2>
       <p class="section-lead">{t.pro.lead}</p>
-      <p class="pro-price">
-        <span class="amount">{t.pro.price}</span>
-        <span class="note">{t.pro.priceNote}</span>
-      </p>
-    </header>
+      <p class="pro-label">{t.pro.label}</p>
+      <p class="pro-price">{t.pro.price}</p>
+      <p class="pro-note">{t.pro.priceNote}</p>
+      <div class="pro-actions">
+        <a href={LINKS.macDownload} class="btn btn-primary">{t.pro.macCta}</a>
+        <a href={localizePath('/compare/', lang)} class="compare-link">{t.pro.compareCta}<span aria-hidden="true">→</span></a>
+      </div>
+    </div>
 
-    <div class="pro-table card">
-      <div class="pt-row pt-headrow">
-        <span class="pt-feature"></span>
-        <span class="pt-col">{t.pro.free}</span>
-        <span class="pt-col pt-col-pro">{t.pro.proLabel}</span>
+    <div class="pro-table" role="table" aria-label={`${t.pro.free} / ${t.pro.pro}`}>
+      <div class="pro-row pro-headrow" role="row">
+        <span role="columnheader"></span>
+        <strong role="columnheader">{t.pro.free}</strong>
+        <strong role="columnheader" class="pro-column">{t.pro.pro}</strong>
       </div>
       {
-        t.pro.rows.map((row) => {
-          const f = cell(row.free);
-          const p = cell(row.pro);
-          return (
-            <div class="pt-row">
-              <span class="pt-feature">{row.feature}</span>
-              <span class="pt-col">
-                {f.type === 'yes' && <i class="ck">✓</i>}
-                {f.type === 'no' && <i class="dash">{t.pro.no}</i>}
-                {f.type === 'text' && <i class="txt">{f.text}</i>}
-              </span>
-              <span class="pt-col pt-col-pro">
-                {p.type === 'yes' && <i class="ck on">✓</i>}
-                {p.type === 'no' && <i class="dash">{t.pro.no}</i>}
-                {p.type === 'text' && <i class="txt strong">{p.text}</i>}
-              </span>
-            </div>
-          );
-        })
+        t.pro.rows.map((row) => (
+          <div class="pro-row" role="row">
+            <span role="rowheader">{row.feature}</span>
+            <span role="cell">{row.free}</span>
+            <strong role="cell" class="pro-column">{row.pro}</strong>
+          </div>
+        ))
       }
     </div>
   </div>
 </section>
 
 <style>
-  .pro-section {
-    background: rgba(255, 255, 255, 0.62);
-    border-block: 1px solid var(--sep);
+  .pro-section { border-bottom: 1px solid var(--sep); }
+  .pro-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(500px, 1.05fr);
+    gap: clamp(44px, 5vw, 72px);
+    align-items: center;
   }
-  .pro-head {
-    max-width: 720px;
-    margin-bottom: clamp(28px, 4vw, 44px);
+  .pro-offer .section-title { margin-top: 0; }
+  .pro-label {
+    margin-top: 34px;
+    font: 800 1.1rem var(--font-round);
   }
   .pro-price {
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 18px;
+    margin-top: 3px;
+    font: 800 clamp(3.6rem, 7vw, 5.4rem)/1 var(--font-round);
+    letter-spacing: -0.055em;
   }
-  .pro-price .amount {
-    font-size: clamp(1.9rem, 3.4vw, 2.4rem);
-    font-weight: 800;
-    line-height: 1;
-    color: var(--text-1);
-    letter-spacing: -0.01em;
-  }
-  .pro-price .note {
-    font-size: 0.9rem;
+  .pro-note {
+    margin-top: 12px;
     color: var(--text-2);
+    font-size: 0.88rem;
   }
-  .pro-table {
-    background: transparent;
-    border-radius: 0;
-    border-inline: none;
-    overflow: hidden;
-    padding: 0;
-  }
-  .pt-row {
-    display: grid;
-    grid-template-columns: 1fr 130px 130px;
+  .pro-actions {
+    display: flex;
     align-items: center;
-    padding: 16px 0;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 28px;
+  }
+  .compare-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--brand-1);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .compare-link span { transition: transform 0.18s ease; }
+  .compare-link:hover span { transform: translateX(4px); }
+  .pro-table {
+    overflow: hidden;
+    border: 1px solid var(--sep-strong);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--surface) 58%, transparent);
+  }
+  .pro-row {
+    display: grid;
+    grid-template-columns: 1.1fr 0.8fr 0.8fr;
+    align-items: stretch;
     border-top: 1px solid var(--sep);
   }
-  .pt-row:first-child {
-    border-top: none;
-  }
-  .pt-headrow {
-    background: transparent;
-    color: var(--text-3);
-  }
-  .pt-feature {
-    font-size: 0.95rem;
-    color: var(--text-1);
-    padding-right: 12px;
-  }
-  .pt-headrow .pt-feature {
-    font-weight: 700;
-  }
-  .pt-col {
+  .pro-row:first-child { border-top: none; }
+  .pro-row > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 68px;
+    padding: 14px 16px;
+    border-left: 1px solid var(--sep);
     text-align: center;
-    font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
+  }
+  .pro-row > *:first-child {
+    justify-content: flex-start;
+    border-left: none;
     color: var(--text-2);
+    text-align: left;
   }
-  .pt-col-pro {
-    background: rgba(255, 255, 255, 0.62);
-    border: 1px solid var(--sep);
-    border-radius: 8px;
-    padding-block: 8px;
+  .pro-headrow > * {
+    min-height: 58px;
     color: var(--text-1);
+    font-family: var(--font-round);
   }
-  .ck {
-    color: var(--text-3);
-    font-size: 1.05rem;
+  .pro-column {
+    color: var(--brand-1);
+    background: rgba(109, 91, 255, 0.045);
   }
-  .ck.on {
-    color: var(--green);
+  @media (max-width: 940px) {
+    .pro-grid { grid-template-columns: 1fr; }
   }
-  .dash {
-    color: var(--text-3);
-    font-style: normal;
-  }
-  .txt {
-    font-style: normal;
-    color: var(--text-2);
-  }
-  .txt.strong {
-    color: var(--text-1);
-  }
-
   @media (max-width: 560px) {
-    .pt-row {
-      grid-template-columns: 1fr 72px 72px;
-      padding: 14px 0;
-    }
-    .pt-feature {
-      font-size: 0.86rem;
-    }
+    .pro-row { grid-template-columns: 1fr 76px 88px; }
+    .pro-row > * { min-height: 62px; padding: 10px 8px; font-size: 0.78rem; }
   }
 </style>

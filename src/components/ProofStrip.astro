@@ -1,0 +1,84 @@
+---
+import { promotion } from '../i18n/promotion';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = promotion[lang];
+---
+
+<aside class="proof" aria-label="Tandem trust facts">
+  <div class="container proof-grid">
+    {
+      t.proofs.map((point, index) => (
+        <div class="proof-item">
+          <span class:list={['proof-icon', `proof-icon-${index + 1}`]} aria-hidden="true">
+            {index === 0 && <svg viewBox="0 0 32 32"><circle cx="7" cy="16" r="3" /><circle cx="25" cy="8" r="3" /><circle cx="25" cy="24" r="3" /><path d="M10 15 22 9M10 17l12 6" /></svg>}
+            {index === 1 && <svg viewBox="0 0 32 32"><path d="M16 3 6 7v8c0 7 5 11 10 14 5-3 10-7 10-14V7z" /><rect x="12" y="13" width="8" height="8" rx="2" /><path d="M14 13v-2a2 2 0 0 1 4 0v2" /></svg>}
+            {index === 2 && <svg viewBox="0 0 32 32"><path d="M8 24h15a6 6 0 0 0 1-11.9A8 8 0 0 0 9.3 10" /><path d="m5 5 22 22" /></svg>}
+          </span>
+          <div>
+            <strong>{point.title}</strong>
+            <p>{point.description}</p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</aside>
+
+<style>
+  .proof {
+    border-block: 1px solid var(--sep);
+    background: color-mix(in srgb, var(--surface) 58%, transparent);
+  }
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .proof-item {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    min-height: 126px;
+    align-items: center;
+    padding: 24px clamp(18px, 3vw, 36px);
+    border-left: 1px solid var(--sep);
+  }
+  .proof-item:last-child { border-right: 1px solid var(--sep); }
+  .proof-icon {
+    color: var(--brand-1);
+  }
+  .proof-icon-2 { color: var(--green); }
+  .proof-icon svg {
+    width: 38px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .proof-item strong {
+    display: block;
+    font-family: var(--font-round);
+    font-size: 1rem;
+  }
+  .proof-item p {
+    margin-top: 4px;
+    color: var(--text-2);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  @media (max-width: 760px) {
+    .proof-grid { grid-template-columns: 1fr; }
+    .proof-item {
+      min-height: 96px;
+      border-inline: 1px solid var(--sep);
+      border-bottom: 1px solid var(--sep);
+    }
+    .proof-item:last-child { border-bottom: none; }
+  }
+</style>

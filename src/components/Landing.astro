@@ -2,11 +2,14 @@
 import Base from '../layouts/Base.astro';
 import Header from './Header.astro';
 import Hero from './Hero.astro';
-import Pills from './Pills.astro';
-import Features from './Features.astro';
+import ProofStrip from './ProofStrip.astro';
+import Workflows from './Workflows.astro';
+import Toolkit from './Toolkit.astro';
 import ProTable from './ProTable.astro';
 import Security from './Security.astro';
 import FAQ from './FAQ.astro';
+import CommunityFeedback from './CommunityFeedback.astro';
+import ClosingCTA from './ClosingCTA.astro';
 import Footer from './Footer.astro';
 import type { Lang } from '../i18n/ui';
 
@@ -20,11 +23,14 @@ const { lang } = Astro.props;
   <Header lang={lang} />
   <main>
     <Hero lang={lang} />
-    <Pills lang={lang} />
-    <Features lang={lang} />
-    <ProTable lang={lang} />
+    <ProofStrip lang={lang} />
+    <Workflows lang={lang} />
+    <Toolkit lang={lang} />
     <Security lang={lang} />
+    <ProTable lang={lang} />
     <FAQ lang={lang} />
+    <CommunityFeedback lang={lang} />
+    <ClosingCTA lang={lang} />
   </main>
   <Footer lang={lang} />
 </Base>
