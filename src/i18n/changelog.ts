@@ -27,6 +27,19 @@ export const changelog: Record<Lang, ChangelogDoc> = {
     backHome: '← Back to home',
     entries: [
       {
+        version: '0.2.17',
+        date: '2026-09-07',
+        items: [
+          'Image editor: overlay a picture from clipboard history, an SVG file, or a fresh screenshot onto the canvas as a movable, resizable object',
+          'Paste Mermaid source with ⌘V to render it as a diagram; ⌘N opens a new blank canvas with a transparent or solid background',
+          'Annotation toolbar reorganised to match Shottr, with smoother tool switching and object editing',
+          'Ruler auto-measure is far more accurate — it now finds the true edges of buttons with labels, rounded corners, hairline dividers and cards with shadows',
+          '“Add screenshot” waits until the editor has really left the screen before capturing, so the editor never appears in its own screenshot',
+          'Fixed the backdrop panel jumping sideways when expanding “More effects”; the whole row is now clickable',
+          'The image editor uses noticeably less memory',
+        ],
+      },
+      {
         version: '0.2.10',
         date: '2026-08-04',
         items: [
@@ -182,6 +195,19 @@ export const changelog: Record<Lang, ChangelogDoc> = {
     backHome: '← 返回首页',
     entries: [
       {
+        version: '0.2.17',
+        date: '2026-09-07',
+        items: [
+          '图片编辑器：可把历史剪贴板里的图片、SVG 文件或一张新截图叠加到画布上，作为可移动、可缩放的独立对象',
+          '⌘V 粘贴 Mermaid 源码即可渲染成图表；⌘N 新建空白画布，背景可透明或纯色',
+          '标注工具栏按 Shottr 重新排布，工具切换与对象编辑更顺手',
+          '标尺自动测量识别精度大幅提升：带文字的按钮、圆角、细分隔线和带阴影的卡片都能量到真实边缘',
+          '「添加截图」会等编辑器真正离开屏幕后再截图，编辑器不会再出现在自己的截图里',
+          '修复衬底面板展开「更多效果」时右侧抖动的问题，整行现在都可点击',
+          '图片编辑器的内存占用明显降低',
+        ],
+      },
+      {
         version: '0.2.10',
         date: '2026-08-04',
         items: [
@@ -336,6 +362,19 @@ export const changelog: Record<Lang, ChangelogDoc> = {
     metaDescription: 'Tandem macOS 版のリリース履歴。',
     backHome: '← ホームに戻る',
     entries: [
+      {
+        version: '0.2.17',
+        date: '2026-09-07',
+        items: [
+          '画像エディタ：クリップボード履歴の画像、SVG ファイル、新規スクリーンショットを、移動・拡大縮小できる独立オブジェクトとしてキャンバスに重ねられるように',
+          '⌘V で Mermaid ソースを貼り付けると図として描画。⌘N で透明または単色背景の新しい空白キャンバスを作成',
+          '注釈ツールバーを Shottr に合わせて再配置し、ツール切り替えとオブジェクト編集がより滑らかに',
+          'ルーラーの自動計測精度が大幅に向上：ラベル付きボタン、角丸、ヘアラインの区切り線、影付きカードでも実際のエッジを検出',
+          '「スクリーンショットを追加」はエディタが完全に画面から消えてから撮影するため、エディタ自身が写り込まなくなりました',
+          '背景パネルで「その他のエフェクト」を開くと右側が揺れる問題を修正。行全体がクリック可能に',
+          '画像エディタのメモリ使用量を大幅に削減',
+        ],
+      },
       {
         version: '0.2.10',
         date: '2026-08-04',
