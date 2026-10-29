@@ -18,7 +18,7 @@ const t = blogStrings[lang].feedback;
       <p class="eyebrow">{t.eyebrow}</p>
       <h2 id="feedback-title">{t.title}</h2>
       <p>{t.lead}</p>
-      <a href={LINKS.appStore} target="_blank" rel="noreferrer">{t.appStore} →</a>
+      <a href={LINKS.appStore} target="_blank" rel="noreferrer" data-ga-ignore>{t.appStore} →</a>
     </div>
     <Comments lang={lang} />
   </div>

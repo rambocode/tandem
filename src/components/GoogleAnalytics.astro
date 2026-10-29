@@ -21,12 +21,13 @@ if (measurementId && !/^G-[A-Z0-9]{4,}$/.test(measurementId)) {
         window.gtag('config', measurementId);
 
         /** 只统计官网的关键转化入口，避免把普通站内导航变成冗余自定义事件。 */
-        document.addEventListener('click', (event) => {
+        const trackLinkClick = (event) => {
           const target = event.target;
           if (!(target instanceof Element)) return;
 
           const link = target.closest('a[href]');
           if (!(link instanceof HTMLAnchorElement)) return;
+          if (link.hasAttribute('data-ga-ignore')) return;
 
           const url = new URL(link.href, window.location.href);
           let eventName = null;
@@ -44,6 +45,11 @@ if (measurementId && !/^G-[A-Z0-9]{4,}$/.test(measurementId)) {
               transport_type: 'beacon',
             });
           }
+        };
+        document.addEventListener('click', trackLinkClick);
+        // 中键打开新标签页触发 auxclick，而非 click。
+        document.addEventListener('auxclick', (event) => {
+          if (event.button === 1) trackLinkClick(event);
         });
       </script>
     </>
